@@ -1,7 +1,5 @@
 # OntoForge
 
-Source files and the final accepted-version PDF for:
-
 > OntoForge: Continual Ontology and Knowledge Graph Construction via Multi-Agent Consensus and Self-Refining Procedures
 
 ## Contents
