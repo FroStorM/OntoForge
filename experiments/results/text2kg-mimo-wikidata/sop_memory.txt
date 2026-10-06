@@ -1,0 +1,128 @@
+For genre, prefer specific compound genres (e.g., 'romantic drama') over generic single-word genres if both are mentioned.
+For country_of_origin, normalize nationality adjectives (e.g., 'Israeli') to the country name (e.g., 'Israel').
+For award_received relations, normalize award names to canonical forms (e.g., 'Screen Actors Guild Award' instead of 'Screen Actors Guild') when candidates include both generic and canonical versions.
+For filming_location, normalize location strings to include full political entities (e.g., 'Atlanta, Georgia') when available, and use the film as subject rather than the gerund 'Filming'.
+For filming_location, prefer explicit city/country mentions over inferred regions when the sentence specifies them.
+For award_received, when candidates include both generic and canonical award names, prefer the more specific/canonical form (e.g., 'Bodil award' over 'Bodil') as it better matches the ontology's award concept and improves consistency.
+For narrative_location, accept explicit city/country mentions where the story 'takes place', 'revolves around', or 'is set in', even if phrased as a destination.
+Reject organization names as characters; only accept specific individuals or named fictional characters as objects of the 'characters' relation.
+For genre, when both a compound genre and its component genres appear as candidates, accept the compound genre as it better captures the description.
+When a film is based on a series, accept both the series name and individual book titles as separate 'based_on' objects; normalize object names by removing publication year suffixes to match ontology 'written_work' concept.
+For genre, when a compound genre like 'comedy horror' appears, accept it as a single object rather than splitting into components or using overly long phrases.
+Reject 'cast member' relations when the ontology does not list 'cast_member'; only accept 'characters' for character mentions.
+For award nominations, accept canonicalized award category names (e.g., 'Academy Award for Best Original Screenplay') over generic or partial mentions when available.
+For narrative_location, accept city names explicitly mentioned as story settings (e.g., 'set in Jerusalem').
+For filming_location relations, normalize the subject to 'film' when the sentence refers to a film's production, as shown in the official example.
+For narrative_location, accept cities and regions explicitly mentioned as settings (e.g., 'set in [location]'), and reject country_of_origin unless explicitly stated as origin or production country.
+For award nominations, accept canonicalized award category names (e.g., 'Academy Award for Best Actress') as provided in the sentence.
+Accept multiple production companies listed in coordination as separate objects for the same relation.
+When a film's country is explicitly mentioned as 'Japanese' in the sentence, accept 'country_of_origin' with object normalized to 'Japan'.
+Ensure relation labels match ontology exactly (e.g., 'production_company' not 'production company').
+For 'director' and 'screenwriter', accept the same person when the sentence states they wrote, produced, shot and directed the film.
+For 'genre', accept 'science fiction' as a canonicalized genre object from the sentence.
+When a film is described as 'animated fantasy adventure', accept 'fantasy' and 'adventure' as separate genre relations, but reject 'animated' as it is a medium, not a film genre in the ontology.
+For 'country_of_origin', only accept when the sentence explicitly mentions the country as the origin or production country (e.g., 'produced in [country]'), not when a nationality or cultural setting is described.
+For 'genre', accept compound genre phrases like 'comedy horror' as a single object when they appear together in the sentence.
+When a sentence lists multiple co-producers, accept each as a separate production_company relation with the film as subject.
+Reject country_of_origin if the country name appears only as part of an organization name (e.g., 'National Film Board of Canada') without explicit origin context.
+When a film is described as receiving an award with a specific year, include the year in the object string if it appears in the sentence.
+When an award is mentioned with a specific year (e.g., 'at the 74th Academy Awards in 2002'), include the year in the object string if it appears in the sentence, but prefer the core award name as canonical form unless the sentence explicitly ties the nomination to the year.
+For genre, when the sentence lists multiple genres in a compound phrase like 'musical comedy horror', accept the compound phrase as a single object only if it appears as a single recognized genre in the ontology; otherwise, split into constituent recognized genres (e.g., 'musical' and 'comedy horror').
+For 'filming_location', require explicit mention of where filming took place (e.g., 'shot in', 'filmed in'), not merely where the story is set.
+For 'country_of_origin', only accept when the sentence explicitly states the country as the origin or production country, not when countries are listed as locations of production companies in a co-production context.
+When a sentence lists multiple co-producers, accept each as a separate 'producer' relation with the album as subject, following the ontology's 'producer(album,)' relation.
+When a person is described as a 'tenor' (or other voice type), accept voice_type relation with human as subject and voice type as object.
+For instrumentation, prefer a compound phrase like 'orchestra and chorus' as a single object when it appears as a unified ensemble in the sentence, rather than splitting into separate triples.
+When extracting tracklist relations from album descriptions, treat quoted song titles in the sentence as equivalent to unquoted versions; prefer the canonical unquoted form if both appear in candidates.
+For instrumentation relation, when sentence contains 'for X and Y' with multiple instruments/ensembles, extract only the first mentioned instrument if official example shows single instrument, otherwise reject due to ambiguity.
+For ambiguous 'song by [person]' phrases, do not automatically accept 'composer' or 'performer' relations unless the sentence explicitly uses 'composed by', 'written by', 'performed by', or similar verbs.
+When a song is described as 'written by' multiple persons, accept 'composer' relation for each person, as 'written by' explicitly indicates composition. Do not automatically accept 'lyrics_by' unless the sentence specifically mentions lyrics writing separately from music composition.
+Do not accept 'producer' relation for an album based solely on a person being mentioned as composer or artist; require explicit production verb.
+When a nationality adjective (e.g., English) precedes a person, it does not indicate language_of_work_or_name for the associated work.
+For 'song by [person]' phrases, do not accept 'composer' or 'performer' relations unless explicit composition/performance verbs are used; 'by' alone may indicate artist but not necessarily composer.
+When multiple date expressions appear (year vs. full date), prefer the simpler canonical form (e.g., just the year) from precision agent if it aligns with the sentence's primary description.
+For voice_type relations, prefer the generic voice category (e.g., 'tenor') as in official examples, even if a more specific descriptor (e.g., 'lyric tenor') is present, unless the ontology explicitly supports a subclass hierarchy.
+For 'song by [person]' phrases, do not accept 'performer' relation unless explicit performance verbs (e.g., 'performed by') are used.
+When a song is described as appearing on an album, accept only the 'tracklist' relation from the album to the song, not 'part_of' from song to album, as 'part_of' is not in the ontology.
+When a sentence lists multiple composers/arrangers for a musical work, accept composer relation for each person if explicitly mentioned as composers/arrangers.
+Canonicalize subject/object strings to full, non-abbreviated forms as per precision agent when available, and reject incomplete abbreviations (e.g., 'E.T.A.') unless fully supported.
+When a sentence describes a collaboration between a work/person and another person (e.g., 'X marks Y's collaboration with Z'), do not infer composer, performer, producer, or other creator relations unless explicit verbs (e.g., 'composed by', 'produced by', 'performed by') are present.
+For genre relations, prefer the full genre phrase from the sentence (e.g., 'country ballad') over a simplified version if it is explicitly present.
+For songs on albums, only accept tracklist(album, song), not part_of(song, album), as part_of is not the appropriate ontology relation for this context.
+For songs described as appearing on an album, always use tracklist(album, song) with the album as subject and the song as object, and reject part_of(song, album) as it is not an ontology relation.
+For musical works described as parts of operas or other larger works, reject 'part_of' unless explicitly in ontology; use only 'tracklist' when applicable.
+When a song is described as jointly written, composed, and produced by multiple people, accept composer relation for each person if explicitly mentioned as composers/arrangers.
+When a sentence says a musical work is 'by' a band or artist, interpret 'by' as indicating the performer(s) rather than composer(s) unless the verb 'composed' or similar is explicitly used. Only use 'composer' relation if compositional attribution is explicitly stated.
+When a sentence describes works written for an instrument, accept instrumentation(work, instrument) with the work type (e.g., 'concertos') as subject, not more specific or paraphrased forms unless directly quoted.
+For tracklist relations, always use album as subject and musical work as object.
+For publication_date, ensure the subject is the entity explicitly described as having that date in the sentence.
+For 'voice_type' relation, accept only vocal range types (e.g., tenor, soprano) from the ontology; reject professions or other attributes.
+For songs recorded by an artist, accept 'performer' relation with the artist as object if the sentence uses 'recorded by' or similar phrasing.
+When a sentence mentions 'additional writing', accept 'lyrics_by' but not 'composer' unless 'composed' is explicitly stated.
+For tracklist relations, the subject must be the album and the object the musical work. Do not invert this relation.
+When a sentence mentions a specific genre (e.g., 'dancehall') and also references its broader origin (e.g., 'jamaican music'), accept only the specific genre for the 'genre' relation, unless both are explicitly listed as separate influences.
+For 'composer' relation, when the sentence says 'was a composer', accept triple with object as the role 'composer' if not specifying a specific work; otherwise, it's a profession mention, not a relation.
+When normalizing relation labels, map common aliases (e.g., 'publication date') to their ontology form (e.g., 'publication_date').
+For songs described as tracks on an album, use part_of(musical work, album) rather than tracklist(album, musical work).
+Reject 'publication_date' triples when the date refers to an event or ranking timeframe, not the work's release.
+When a sentence mentions multiple founders (e.g., 'Peter Sunde, Fredrik Neij, and Gottfrid Svartholm'), accept separate 'creator' triples for each individual if the relation is in the ontology and the phrase 'founders' implies creation of a web application or similar entity.
+For platform relations, prefer the canonical hardware name without abbreviation parentheses, as seen in the official example.
+For 'operating_system' relation, subject should be a computer model or hardware system, not a software product like NetWare. The sentence mentions clients running CP/M and MS-DOS, but these are operating systems that clients run, not that NetWare is an operating system of them.
+When multiple entities are listed with distinct roles (e.g., 'developed by X and Y and published by Z'), extract 'developer' relation only for entities explicitly described as developers, not publishers.
+When a hypertext system or similar entity is described as 'developed by' a person, normalize the relation to 'creator' if in ontology, as per official example pattern.
+For Unix-like systems, accept 'developer' relation with company as object when sentence states 'from the Swedish company'.
+When forking software, the forked entity (e.g., OpenIndiana) has as developer the group mentioned (e.g., former OpenSolaris developers).
+For operating system relations on minicomputers, prefer the canonical hardware name (e.g., 'PDP-8') without descriptive suffixes like 'minicomputer', following the official example pattern with 'Heathkit H8'.
+For platform relations, use the canonical game name (e.g., 'Impossible Mission') instead of generic phrases like 'the game' when known from context or canonicalization agents.
+For platform relations, use the canonical game name (e.g., 'Impossible Mission') instead of generic phrases like 'the game' or 'Versions' when known from context or canonicalization agents.
+For entities described as 'family of multi-user real-time operating systems', treat them as software products and extract 'developer' relation with the creating company as object, following the official example pattern for 'Ultrix'.
+For platform relations, use the canonical game name (e.g., 'Jack Nicklaus ' Greatest 18 Holes of Major Championship Golf') instead of generic phrases like 'the game' when known from context or canonicalization agents.
+For membership in music bands or groups, accept 'Member_of' relation when the ontology includes 'Member_of(human,organization)' and the sentence explicitly states the person is a member or lead singer of the group.
+For 'president' positions, use 'position_held(human,president)' with canonical role names. Ensure 'head_of_state' relations follow the ontology's (country,human) pattern.
+For membership in academic societies, use 'Member_of' when the sentence states 'elected a member' or similar, following the official example pattern.
+For political figures described as both head of government (e.g., Prime Minister) and head of state (e.g., President) of a country, accept both 'head_of_government' and 'head_of_state' relations when the sentence explicitly states the roles.
+When the ontology includes 'position_held(human,president)', accept 'Prime Minister' as a valid object for 'position_held' if the sentence explicitly states it as a position held by the subject.
+When a candidate relation is a multi-word phrase with spaces, map it to the ontology's underscore-separated relation label if the evidence supports the same semantic relation.
+When ontology includes distinct 'political_ideology' and 'political_alignment' relations, map candidate triples with ideology objects to 'political_ideology' and alignment objects to 'political_alignment'.
+When a sentence explicitly states a person held a presidential position for a country, accept both 'position_held(human,president)' and 'head_of_state(country,human)' if the ontology includes both relations and the role implies head of state status.
+For multi-word relation labels from candidates (e.g., 'position held'), map to ontology underscore-separated form ('position_held') when the semantic match is clear.
+When a sentence states a party's ideology or program is closer to a specific agrarianism, map candidate 'political ideology' to the ontology's 'political_ideology' relation.
+For multi-word relation labels like 'political ideology', normalize to underscore-separated 'political_ideology' when the ontology uses that form.
+When a sentence states a person is 'President of [country]', accept both 'position_held' (with 'President' as object) and 'head_of_state' (with country as object) if ontology includes both relations and the role implies head of state status.
+When a sentence states a party is based on a specific politics (e.g., green politics), map to 'political_ideology' relation if the ontology includes it, and reject 'political_alignment' unless alignment is explicitly mentioned.
+Normalize multi-word relation labels like 'political ideology' to ontology underscore-separated form 'political_ideology' when the semantic match is clear.
+When a sentence states a person is 'President of [country]', accept both 'position_held' (with full 'President of [country]' as object) and 'head_of_state' (with country as object) if ontology includes both relations and the role implies head of state status.
+When a sentence states a person is 'President of [country]', accept both 'position_held(human,president)' and 'head_of_state(country,human)' if ontology includes both relations and the role implies head of state status. Use full 'President of [country]' as object for 'position_held'.
+When a sentence states a person served as 'President of [country]', accept both 'position_held' (with full 'President of [country]' as object) and 'head_of_state' (with country as object) if ontology includes both relations and the role implies head of state status.
+When a sentence mentions a person being a Fellow of an organization, accept 'Member_of' relation if the ontology includes it and the organization is a professional society or similar entity, not necessarily a political organization.
+Reject organization membership claims that are not explicitly stated as membership (e.g., employment as professor) unless the ontology has a specific employment relation.
+When a political party's campaign themes include a stance against illegal immigration, map to 'political_ideology' relation with object like 'anti-immigration' if ontology includes 'political_ideology'.
+Normalize relation labels like 'political ideology' to 'political_ideology' when semantic match is clear.
+Use the canonicalized party name (e.g., 'Noi con Salvini') from the sentence as subject, not translated or generic forms.
+When a sentence defines a political party by its ideology, accept 'political_ideology' relation with canonical party name as subject.
+When a sentence states a person is 'a member of [political party]', accept 'member_of_political_party' relation with canonical party name as object.
+When a political party is defined by its ideologies in a sentence, extract all explicit 'political_ideology' relations with the canonical party name as subject.
+Normalize subject to the canonical party name from the sentence (e.g., 'Green Party of Albania') rather than including article 'The' if the official example omits it.
+When a sentence states a person 'served as President of [country]', use the 'position_held' relation with the full title as object, following the official example normalization. Do not infer 'head_of_state' unless explicitly stated as head of state.
+When a person holds a leadership position (e.g., chairman) in an organization, include both Member_of and position_held triples if both are explicitly supported.
+Normalize organization names to the exact form from the sentence, preserving special characters and abbreviations.
+When a sentence mentions a political party with a location modifier (e.g., 'of Cincinnati, Ohio'), preserve the full canonical name as the object for 'member_of_political_party', including the state abbreviation if present.
+When a sentence states a person 'was the President of [country]', use the 'position_held' relation with the full title as object, following the official example normalization. Do not infer 'head_of_state' unless explicitly stated as head of state.
+When a sentence states a person 'served as President of [country]' or 'was the President of [country]', use the 'position_held' relation with the full title as object (e.g., 'President of South Korea'), following the official example normalization. Do not infer 'head_of_state' unless explicitly stated as head of state.
+When a person is a member of a militia or paramilitary wing (e.g., SA) of a political party (e.g., Nazi Party), extract both Member_of for the specific organization and Member_of for the parent political party if contextually supported.
+For political party membership, extract both 'Member_of' and 'member_of_political_party' if the party is a political organization, as per ontology distinction.
+For 'served as President of [country]', use 'position_held' with the full title as object, not 'head_of_state' unless explicitly stated.
+For membership in a political party, prefer 'member_of_political_party' over generic 'Member_of' when the organization is clearly a political party.
+When ontology contains 'Member_of(human,organization)', normalize candidate relation 'Member of' to 'Member_of' for consistency.
+When ontology relation is 'political_ideology', normalize candidate relation 'political ideology' to 'political_ideology' for consistency.
+For objects like 'Scottish independence', verify if they are explicitly labeled as a political ideology; otherwise, reject unless supported by context.
+For political party membership, normalize candidate relation 'member of political party' to 'member_of_political_party' and use it over generic 'Member_of' when the object is a political party.
+When a person is elected in a public election, always use 'elected_in' relation, even if candidate relation has spaces.
+For political party membership, always prefer 'member_of_political_party' over 'Member_of' when the object is a political party, even if the sentence mentions 'caucus' or 'wing' of the party.
+When multiple candidate triples exist for the same subject and relation but different objects, prefer the simpler canonical form (e.g., 'president' over 'sixth President') consistent with ontology concepts and official example normalization.
+For 'served as interim president', use 'position_held' relation with the full title as object, consistent with adaptive SOP memory.
+When evaluating 'political_ideology' objects, reject descriptive phrases (e.g., 'socialist democratic regime') unless they are explicitly listed as political ideologies in the ontology or supported by the official example normalization. Prefer canonical ideology names like 'Socialism' or 'Communism'.
+For political party membership, always normalize candidate relation 'member of political party' to 'member_of_political_party'.
+For elected in public election, normalize 'elected in' to 'elected_in' consistent with ontology.
+When a position title includes a political party role (e.g., Director-General of a party), it is not directly mappable to ontology relations unless it's a generic 'head_of_state' or 'head_of_government'. Prefer membership in the political party.
+For elections, always use 'elected_in' relation with 'Public election' as object, even if the sentence mentions specific terms (e.g., five elections to six-year terms).

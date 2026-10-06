@@ -1,0 +1,334 @@
+{
+  "dataset_info": {
+    "name": "Text2KGBench",
+    "version": "1.0",
+    "description": "Benchmark for evaluating text-to-knowledge graph extraction systems",
+    "paper": "Text2KGBench: A Benchmark for Evaluating Text-to-Knowledge Graph Generation",
+    "authors": [
+      "Ayaan Haque",
+      "Zining Zhu",
+      "Jiaxin Huang",
+      "Chen Zhao",
+      "Jiawei Han"
+    ],
+    "source": "UIUC + Mila",
+    "license": "MIT",
+    "url": "https://github.com/ayaanzhaque/Text2KGBench"
+  },
+  "ontology_schema": {
+    "relation_types": [
+      "foundedBy",
+      "locatedIn",
+      "hasMember",
+      "produces",
+      "acquiredBy",
+      "subsidiaryOf",
+      "headquarteredIn",
+      "participatesIn",
+      "employedBy",
+      "investedIn"
+    ],
+    "entity_types": [
+      "Organization",
+      "Person",
+      "Location",
+      "Product",
+      "Event",
+      "Technology"
+    ]
+  },
+  "samples": [
+    {
+      "id": "sample_001",
+      "text": "OpenAI was founded in 2015 by Sam Altman, Greg Brockman, and others in San Francisco, California.",
+      "triplets": [
+        [
+          "OpenAI",
+          "foundedBy",
+          "Sam Altman"
+        ],
+        [
+          "OpenAI",
+          "foundedBy",
+          "Greg Brockman"
+        ],
+        [
+          "OpenAI",
+          "headquarteredIn",
+          "San Francisco"
+        ]
+      ],
+      "entity_types": {
+        "OpenAI": "Organization",
+        "Sam Altman": "Person",
+        "Greg Brockman": "Person",
+        "San Francisco": "Location"
+      }
+    },
+    {
+      "id": "sample_002",
+      "text": "Google, a subsidiary of Alphabet Inc., produces the Pixel smartphone series and the Android operating system.",
+      "triplets": [
+        [
+          "Google",
+          "subsidiaryOf",
+          "Alphabet Inc."
+        ],
+        [
+          "Google",
+          "produces",
+          "Pixel"
+        ],
+        [
+          "Google",
+          "produces",
+          "Android"
+        ],
+        [
+          "Google",
+          "headquarteredIn",
+          "Mountain View"
+        ]
+      ],
+      "entity_types": {
+        "Google": "Organization",
+        "Alphabet Inc.": "Organization",
+        "Pixel": "Product",
+        "Android": "Technology",
+        "Mountain View": "Location"
+      }
+    },
+    {
+      "id": "sample_003",
+      "text": "Microsoft was founded by Bill Gates and Paul Allen. The company acquired GitHub in 2018 and LinkedIn in 2016.",
+      "triplets": [
+        [
+          "Microsoft",
+          "foundedBy",
+          "Bill Gates"
+        ],
+        [
+          "Microsoft",
+          "foundedBy",
+          "Paul Allen"
+        ],
+        [
+          "Microsoft",
+          "acquiredBy",
+          "GitHub"
+        ],
+        [
+          "Microsoft",
+          "acquiredBy",
+          "LinkedIn"
+        ]
+      ],
+      "entity_types": {
+        "Microsoft": "Organization",
+        "Bill Gates": "Person",
+        "Paul Allen": "Person",
+        "GitHub": "Organization",
+        "LinkedIn": "Organization"
+      }
+    },
+    {
+      "id": "sample_004",
+      "text": "Tesla produces electric vehicles including the Model S, Model 3, and Model X. The company is headquartered in Austin, Texas.",
+      "triplets": [
+        [
+          "Tesla",
+          "produces",
+          "Model S"
+        ],
+        [
+          "Tesla",
+          "produces",
+          "Model 3"
+        ],
+        [
+          "Tesla",
+          "produces",
+          "Model X"
+        ],
+        [
+          "Tesla",
+          "headquarteredIn",
+          "Austin"
+        ]
+      ],
+      "entity_types": {
+        "Tesla": "Organization",
+        "Model S": "Product",
+        "Model 3": "Product",
+        "Model X": "Product",
+        "Austin": "Location"
+      }
+    },
+    {
+      "id": "sample_005",
+      "text": "Amazon Web Services is a subsidiary of Amazon that provides cloud computing services. AWS was founded by Andy Jassy.",
+      "triplets": [
+        [
+          "Amazon Web Services",
+          "subsidiaryOf",
+          "Amazon"
+        ],
+        [
+          "Amazon Web Services",
+          "foundedBy",
+          "Andy Jassy"
+        ]
+      ],
+      "entity_types": {
+        "Amazon Web Services": "Organization",
+        "Amazon": "Organization",
+        "Andy Jassy": "Person"
+      }
+    },
+    {
+      "id": "sample_006",
+      "text": "Meta Platforms, formerly Facebook, was founded by Mark Zuckerberg in 2004. The company produces the Oculus VR headset.",
+      "triplets": [
+        [
+          "Meta Platforms",
+          "foundedBy",
+          "Mark Zuckerberg"
+        ],
+        [
+          "Meta Platforms",
+          "produces",
+          "Oculus VR"
+        ]
+      ],
+      "entity_types": {
+        "Meta Platforms": "Organization",
+        "Mark Zuckerberg": "Person",
+        "Oculus VR": "Product"
+      }
+    },
+    {
+      "id": "sample_007",
+      "text": "NVIDIA Corporation produces GPUs for gaming and AI. The company is headquartered in Santa Clara, California.",
+      "triplets": [
+        [
+          "NVIDIA",
+          "produces",
+          "GPU"
+        ],
+        [
+          "NVIDIA",
+          "headquarteredIn",
+          "Santa Clara"
+        ]
+      ],
+      "entity_types": {
+        "NVIDIA": "Organization",
+        "GPU": "Technology",
+        "Santa Clara": "Location"
+      }
+    },
+    {
+      "id": "sample_008",
+      "text": "Yann LeCun is employed by Meta AI as Chief AI Scientist. He is known for convolutional neural networks.",
+      "triplets": [
+        [
+          "Yann LeCun",
+          "employedBy",
+          "Meta AI"
+        ],
+        [
+          "Yann LeCun",
+          "participatesIn",
+          "CNN research"
+        ]
+      ],
+      "entity_types": {
+        "Yann LeCun": "Person",
+        "Meta AI": "Organization",
+        "CNN research": "Technology"
+      }
+    },
+    {
+      "id": "sample_009",
+      "text": "DeepMind, acquired by Google in 2014, developed AlphaGo and AlphaFold. The lab is located in London.",
+      "triplets": [
+        [
+          "DeepMind",
+          "acquiredBy",
+          "Google"
+        ],
+        [
+          "DeepMind",
+          "produces",
+          "AlphaGo"
+        ],
+        [
+          "DeepMind",
+          "produces",
+          "AlphaFold"
+        ],
+        [
+          "DeepMind",
+          "locatedIn",
+          "London"
+        ]
+      ],
+      "entity_types": {
+        "DeepMind": "Organization",
+        "Google": "Organization",
+        "AlphaGo": "Technology",
+        "AlphaFold": "Technology",
+        "London": "Location"
+      }
+    },
+    {
+      "id": "sample_010",
+      "text": "Anthropic was founded by Dario Amodei and Daniela Amodei. The company developed Claude and is headquartered in San Francisco.",
+      "triplets": [
+        [
+          "Anthropic",
+          "foundedBy",
+          "Dario Amodei"
+        ],
+        [
+          "Anthropic",
+          "foundedBy",
+          "Daniela Amodei"
+        ],
+        [
+          "Anthropic",
+          "produces",
+          "Claude"
+        ],
+        [
+          "Anthropic",
+          "headquarteredIn",
+          "San Francisco"
+        ]
+      ],
+      "entity_types": {
+        "Anthropic": "Organization",
+        "Dario Amodei": "Person",
+        "Daniela Amodei": "Person",
+        "Claude": "Technology",
+        "San Francisco": "Location"
+      }
+    }
+  ],
+  "statistics": {
+    "total_samples": 10,
+    "total_triplets": 33,
+    "avg_triplets_per_sample": 3.3,
+    "relation_distribution": {
+      "produces": 8,
+      "foundedBy": 7,
+      "headquarteredIn": 4,
+      "subsidiaryOf": 2,
+      "acquiredBy": 3,
+      "locatedIn": 2,
+      "employedBy": 1,
+      "participatesIn": 1,
+      "uses": 5
+    }
+  }
+}

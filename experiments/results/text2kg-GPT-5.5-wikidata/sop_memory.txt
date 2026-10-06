@@ -1,0 +1,152 @@
+Phrases such as 'principal photography took place in [city]' directly support filming_location(film, city).
+A phrase like '[year] [nationality] documentary film' can support publication_date, country_of_origin, and genre when the ontology contains those film relations.
+Do not extract festival screenings or premieres as film awards, nominations, locations, or production companies unless the sentence explicitly states an award, nomination, city filming/narrative location, or production role.
+A phrase like 'the film is about X' directly supports main_subject(film, X).
+For films, phrases like 'plot', 'story', or 'screenplay was written by [person]' support screenwriter(film, human), including coordinated writers.
+For animated films, phrases indicating the film was animated or produced at venues in specific cities can support filming_location(film, city) when the city is explicitly named.
+A nationality adjective in a phrase like 'YYYY American genre film' supports country_of_origin normalized to the corresponding country when a canonical country candidate is available.
+A phrase stating that an actor earned an acting award for a performance in a film supports award_received(film, award) for the film when that is the available candidate, and supports cast_member(film, actor).
+For plot summaries, 'the story takes place in [city]' supports narrative_location(film, city), and 'focuses on [topic]' supports main_subject(film, topic) when the film subject can be canonicalized from candidates.
+When coordinated award names share a trailing category such as 'for Best Supporting Actor', normalize each award to the full award name if a canonical candidate is available.
+Phrases like 'filming began in [city]' directly support filming_location(film, city) when the location is a city.
+Phrases like 'locations in [city] featured in the film' support narrative_location(film, city); do not infer filming_location unless filming, shooting, or production at that city is explicitly stated.
+For film plot descriptions, phrases like 'revolves around [character/topic]' support main_subject when the object is explicitly stated.
+In plot summaries, a parenthetical actor surname after a character description can support cast_member for the film when the candidate object matches the named actor.
+Phrases such as 'shot in [city]' and 'shooting taking place in [city]' support filming_location for each coordinated city.
+Phrases like 'written and directed by [person]' directly support both screenwriter(film, person) and director(film, person); prefer a canonical film subject when available among candidates.
+Phrases like 'helmed by' or '[person] helmed [film]' support director(film, human).
+Phrases like 'released theatrically on [date]' directly support publication_date(film, date).
+Phrases of the form '[year] [nationality] [genre] film' support publication_date, country_of_origin, and genre when candidates provide those values.
+Phrases like 'film adaptation of [written work], covering [listed novels]' support based_on for the named source work and each explicitly listed covered novel when candidates provide them.
+Phrases like 'directed by [person]' support director(film, person), and 'written by [coordinated people]' supports screenwriter(film, person) for each listed writer.
+In award-category lists following an Academy Award mention, normalize category-only nomination objects such as 'Best Cinematography' to 'Academy Award for Best Cinematography' when supported by context.
+A parenthetical person after an award category supports the nominee context for that category, but does not by itself support cast_member.
+Phrases of the form '[year] [nationality] [genre] movie/film produced by [company]' support publication_date, country_of_origin, genre, and production_company.
+Phrases of the form 'starring [person] as [character]' support cast_member(film, person) and characters(film, film character).
+Phrases like 'received [number] Academy Award nominations' followed by category names support nominated_for(film, Academy Award for [category]) for each listed category; phrases like 'winning [award]' support award_received(film, award).
+Phrases like 'principal photography began in [city]' support filming_location(film, city).
+Phrases like 'the film is set in [city], [country]' support narrative_location(film, city); normalize the object to the city name when the relation range is city.
+Phrases of the form '[person]'s [year] documentary on [subject], [title]' can support director, publication_date, genre, and main_subject for the titled film when context identifies the person as the documentary creator.
+For film descriptions, 'scripted by [person]' supports screenwriter(film, person).
+For animated films, 'animated by [studio/company]' can support production_company(film, company) when the object is a film production studio.
+Phrases like 'is inspired by [written work]' support based_on(film, written work).
+A phrase like '[year] [genre] film' supports publication_date(film, year) and genre(film, genre).
+A phrase like 'written, produced, shot and directed by [person]' supports screenwriter(film, person) and director(film, person), but not production_company.
+Phrases like 'produced by [studio/company]' for a film support production_company(film, film production company).
+Phrases like '[nationality] film' can support country_of_origin(film, country), and 'released in [year]' supports publication_date(film, year).
+Phrases like 'transplant [written work] to [new setting/culture]' can support based_on(film, written work) for the film described as the attempt or prior example.
+Phrases like 'co-produced/coproduced by [studio/company]' for a film support production_company(film, company), including each coordinated company.
+When a film is co-produced by a national film board or explicitly national production organization, a candidate country_of_origin for that country can be accepted if present.
+Phrases like '[nationality adjective] [genre] film serial starring [person]' support country_of_origin with the canonical country, genre, and cast_member.
+Phrases like 'was awarded [award]' directly support award_received(subject, award).
+For film-role award phrasing such as '[actor] was nominated for [award] for/in [film]', accept nominated_for(film, award) when that candidate is present; 'role as [character]' supports cast_member(film, actor) and characters(film, character) when explicit.
+For Scooby-Doo direct-to-DVD film titles mentioned without the franchise prefix, prefer the canonical 'Scooby-Doo! [Title]' form when present in candidates.
+For films, phrases like 'international co-production between companies in [countries]' support country_of_origin for each listed country, but do not support production_company unless company names are given.
+For album sentences, 'was produced by [people]' supports producer(album, person) for each coordinated producer; do not map album release dates to publication_date unless the ontology permits album dates.
+Phrases like 'was a [voice type]' for a singer support voice_type(human, voice); do not extract performer triples from generic descriptions like 'sang traditional songs' unless specific musical works are named.
+For music sentences, phrases like 'included on [album]' support part_of(musical work, album) and tracklist(album, musical work) when candidates are present.
+For musical works, phrasing like 'composition for [instrument/ensemble] and [instrument/ensemble] by [person]' supports composer(work, person) and instrumentation for each explicitly listed instrument or ensemble.
+For album sentences, 'featuring the singles [songs]' supports tracklist(album, song) and part_of(song, album) for each listed single when candidates are present.
+Do not infer composer or lyrics_by from phrasing like 'published by [person]' unless the sentence explicitly says composed, written, or lyrics by.
+For musical works, phrasing like 'a song by [artist]' supports performer(work, artist); phrasing like 'from [album]' supports part_of(work, album) and tracklist(album, work) when candidates are present.
+For songs, 'written by [people]' supports composer/songwriter candidates, but do not assert lyrics_by unless lyrics or words are explicitly mentioned.
+For album sentences, phrasing like 'was released through [label]' supports record_label(album, label), including regional labels introduced by phrases such as 'in Europe through [label]'.
+For a song described as a promo-single for an album, accept part_of(song, album) and tracklist(album, song) when those candidates are present.
+For biographical music sentences stating a person 'was a/an [modifier] tenor', extract voice_type(person, tenor), normalizing subtypes such as lyric tenor or operatic tenor to tenor when canonical candidates are present.
+Do not assert composer for generic plural phrases such as 'different tunes' when creators are introduced as 'composers and arrangers' unless the sentence directly identifies the named person as the composer of a specific musical work.
+Do not map 'Latin lyrics' to language_of_work_or_name unless the candidate subject is the musical work/name whose language is being stated.
+For musical works, phrasing like 'features [artists]' supports performer(work, artist) for all coordinated featured artists, even if only some are explicitly credited.
+Phrases such as 'the album's first single' or 'one of [Album]'s singles' support part_of(song, album) and tracklist(album, song) when candidates are present.
+A phrase like '[Artist]'s number-one hit' can support performer(song, artist) when the musical work is the hit being described.
+Do not infer composer, producer, or performer relations from vague phrasing such as 'collaboration with' unless the sentence explicitly states the role or a supported candidate provides direct evidence.
+A named entity changing a release date does not by itself support record_label unless the sentence states or clearly implies it released/published the album.
+For song descriptions, 'written by [person]' supports composer(work, person) and may support lyrics_by(work, person) when a lyrics_by candidate is present and no separate lyricist is specified.
+For '[work] is a [compound genre/form] performed by [artist] written and sung by [person]', keep performer for both the performing group and the named singer when both candidates are present.
+Phrasing like '[song] appears on [album]' supports part_of(song, album) and tracklist(album, song) when candidates are present.
+Parenthetical forms like '(Russian: ...)' may support language_of_work_or_name(work, Russian) when a candidate is present.
+For music works, phrasing like '[work] is an instrumental piece' supports genre(work, instrumental) when a genre candidate is present; do not treat 'instrumental' as instrumentation unless specific instruments are named.
+Phrasing like '[work] by [musician/artist]' supports performer(work, artist) when a performer candidate is present, but does not by itself support composer unless writing/composition is explicitly stated.
+For phrases like 'midtempo dance song', treat 'midtempo' as a tempo modifier and extract genre 'dance' when a candidate is present.
+For albums, phrasing like 'released through/on/by [record label]' supports record_label(album, label) when a candidate is present.
+Phrasing like '[work] is a [year] song' supports publication_date(work, year) when a publication_date candidate is present.
+For generic concerto descriptions such as 'concertos written for [instrument] and accompanied by [ensemble]', prefer a canonical '[Instrument] Concerto' subject when present, and avoid vague unspecified objects unless they are canonicalized candidates.
+Phrasing like '[song/work] written by [person]' supports composer(work, person) for musical works when composer candidates are present.
+Phrasing like '[work], the first track from [album]' supports both part_of(work, album) and tracklist(album, work) when candidates are present.
+For songs or musical works, phrasing like 'recorded by [artist/singer]' supports performer(work, artist) when a performer candidate is present.
+Normalize relation label aliases such as 'lyrics by' to the ontology relation 'lyrics_by' when the sentence states that a musical work was written by the person.
+Phrasing like '[work] released in [year] as a single from [album]' supports publication_date(work, year), part_of(work, album), and tracklist(album, work) when candidates are present.
+A phrase like '[genre] act [artist]' describes the artist, not necessarily the musical work's genre; do not extract genre(work, genre) unless the work itself is described as that genre.
+For album sentences like '[album] was released in [date] by [label]', extract record_label(album,label) when supported, but do not extract publication_date unless the ontology permits album release dates.
+Phrasing like 'Like [album A], [album B] was nominated for [award]' supports nominated_for for both albums when the comparison clearly refers to the same award nomination.
+When a song is described as a '[genre] track', extract genre(work, genre); phrases like 'influences of [genre]' alone should not be treated as genre unless the work is explicitly described as that genre.
+When a sentence uses a generic phrase like 'the song' but the candidate set provides the song title, prefer the canonical title for supported written-by and album-track relations.
+Do not extract award or ranking claims for a musical work/video unless the ontology has an applicable relation and a supported candidate triple is present.
+For sentences stating a research/software project was 'by' named people, accept creator(project/application, person) when creator candidates are present; prefer a provided canonical expansion over an abbreviation.
+Phrases like "[website]'s founders ([people])" support creator(application, human) for each listed founder when creator candidates are present; prefer a provided canonical website/application name over generic "website".
+For video games/software described as released 'for' specific computers or systems, accept platform(software, computer) for each listed platform when candidates are present.
+For video games described as released for or ported to named systems/computers, accept platform(game, system) for each listed platform; prefer expanded console names over parenthetical abbreviations when both candidates exist.
+For software described as 'running on' or 'hardware-independent, running on any suitable' computer system, accept platform(software, computer) and prefer the most specific hardware/system phrase provided by candidates.
+For a website/application described as launched by named people, accept creator(application, human) for each coordinated person when creator candidates are present.
+For video game expansion packs described as developed by one or more named companies, accept developer(expansion pack title, company) for each coordinated developer candidate.
+For software or operating systems described as being 'from' a named company, accept developer(software, company) when a developer candidate is present.
+Phrases stating a computer or computer model can 'run' an operating system support operating_system(computer model, operating system); the inverse software-on-hardware wording can also support platform(software, computer) when candidates are present.
+For video games/software, phrases like 'published by' do not support developer unless the sentence also says 'developed by' or otherwise explicitly identifies the developer.
+For software or command shells described as 'written by' a named person, accept creator(application, human) when creator candidates are present; normalize away leading articles in titles.
+For software described with a possessive named company, e.g. "Company's engine/software", accept developer(software, company) when a developer candidate is present.
+For games/software described as written for or ported to named computer platforms, accept platform(software, computer) for each listed platform and prefer canonical software titles when provided by candidates.
+For contrastive phrasing like 'developed by X rather than Y, the developers of Z', accept developer(current title, X) and, when candidate-present, developer(Z, Y).
+Do not infer creator/developer relations from television hosting phrases such as 'hosted by'; hosting is not an ontology relation here.
+When an expansion pack sentence identifies the base game as developed by a company, accept developer triples for candidate subjects that are the expansion title and/or the explicitly named base game when present.
+For software described as a computer program produced by a named company, accept developer(software, company) when a developer candidate is present, normalizing away leading articles in company names.
+For software described as being forked under a new name by a person or group, accept creator and/or developer candidates for the new software when those candidate relations are present.
+For creative works explicitly described as 'created by' a named person, accept creator(title, person) when a creator candidate is present.
+For sentences stating an operating system was used on a named computer model, accept platform(operating system, computer model) and operating_system(computer model, operating system) when candidate-present, normalizing away generic terms like minicomputer.
+Do not infer developer, creator, or platform relations from purchase/acquisition or current ownership statements unless development/creation/platform evidence is explicitly stated and candidate-present.
+For phrasing 'operating system for [computer model]', accept platform(operating system, computer model) and operating_system(computer model, operating system) when candidate-present.
+For sentences saying a game was published or released for a list of computer systems, accept platform(game, system) for each coordinated platform, using the canonical game title when candidate-present.
+Do not infer platform(software, computer) from wording like code/software resides on, is stored on, or remains on a physical machine unless the sentence explicitly indicates it runs on or was released for that computer.
+Do not infer developer or platform relations from a work being 'based on' a game engine unless an explicit supported candidate is present.
+Do not infer developer, creator, platform, or operating_system relations from support lifecycle statements such as ended support, extended support, or discontinued support unless an explicit candidate is directly supported by development, creation, or platform wording.
+Do not infer developer, creator, platform, or operating_system relations from statements that a service allows downloading archived versions of software unless an explicit candidate is directly supported by development, creation, or platform wording.
+For phrases stating a person was acclaimed/elected/became leader of a named political party, accept member_of_political_party(person, party) when candidate-present; prefer it over generic Member_of.
+For sentences stating a person co-founded a band or is one of the band's performers, accept Member_of(person, band) when candidate-present.
+In politics sentences, wording like 'President of [country]' directly supports position_held(person, president of country); do not additionally infer head_of_state unless explicitly stated or candidate evidence directly says head of state.
+Do not accept elected_in(person, re-election) when 're-election' is a generic event description rather than a named Public election.
+Phrases like 'was elected a foreign member of [Academy/organization]' directly support Member_of(person, organization) when the candidate is present.
+Do not convert 'associated with' an organization into Member_of unless the sentence explicitly states membership or an equivalent role.
+In political biography sentences, 'Member of the Parliament of [country]' directly supports Member_of(person, Parliament of [country]) when candidate-present; 'representing [party]' supports member_of_political_party(person, party).
+Do not infer political_ideology(party, ideology) merely from a party name or from the party being mentioned near an ideology; require explicit wording that the party held, followed, represented, or was based on that ideology.
+Phrases such as 'honorary member of [Academy/organization]' directly support Member_of(person, organization); do not convert job titles like 'general in' or 'head of' an organization into Member_of unless membership is explicitly stated.
+For political parties, wording that a party's 'program and ideology' was close to an ideology, or that an ideology was 'advocated by' a party, directly supports political_ideology(party, ideology).
+For political parties, wording like 'based on [ideology]' directly supports political_ideology(party, ideology).
+Do not infer Member_of from 'transferred to' or employment titles such as 'senior scientist' unless explicit membership wording is present and the relation is otherwise in scope.
+Phrases like 'Fellow of [organization]' directly support Member_of(person, organization).
+For political parties, wording such as 'was a populist political party' supports political_ideology(party, populism), with adjective forms normalized to ideology nouns.
+For political parties, explicitly stated 'main campaign themes' such as Euroscepticism can support political_ideology(party, ideology) when the theme is an ideology.
+For political parties, wording like 'based on the principles of [ideology], such as A, B, and C' supports political_ideology for the named ideology and the listed coordinated principles when they are ideological or political principles.
+Phrases like 'served on [city council]' directly support Member_of(person, government council/organization).
+For political parties, wording such as 'follows the traditions of [ideology]' or 'maintains a strong commitment to [ideology]' directly supports political_ideology(party, ideology).
+Phrases like '[party] candidate' or '[party] elected official' can support member_of_political_party(person, party) when the party affiliation is explicit.
+For office titles like 'served as the seventh President of X', normalize the position object to 'President of X' and use position_held(person, position).
+In politics-domain extraction, do not keep generic sports, academic, or corporate organization memberships unless the organization is a political party or government body explicitly covered by the ontology.
+Being chairman of an organization does not by itself support Member_of when the ontology lacks a suitable chairperson/office relation.
+When a person is explicitly described as a commander or co-founder of a paramilitary political organization, Member_of(person, organization) is supported.
+Normalize surface relation label 'political ideology' to ontology label 'political_ideology' when extracting party ideologies or principles.
+For phrases like 'served as President of X', prefer position_held(person, President of X); do not extract head_of_state unless the sentence explicitly states head of state or the task requires office-to-role inference.
+Do not extract generic software project participation or contributor roles as ontology political relations unless the organization is explicitly a political party or government body.
+A party supporting or campaigning for independence can support political_ideology(party, independence movement), especially when aligned with gold-style examples.
+A party platform described as based on an ideology directly supports political_ideology(party, ideology).
+Do not map founder of a generic, religious, fraternal, or esoteric organization to Member_of in this politics ontology unless the organization is explicitly a political party, government body, or political organization.
+For names containing parenthetical nicknames, prefer the canonical full name without the nickname when a candidate provides it.
+When a sentence says a person was elected to a legislative chamber, Member_of(person, chamber) is supported if the chamber is a government organization.
+Membership in a named party caucus supports Member_of(person, party caucus), but do not infer member_of_political_party(person, party) unless party membership is directly stated.
+A person described as a resistance fighter with a named political resistance group supports Member_of(person, group).
+For a political party described as combining an ideology and support for another doctrine, extract political_ideology(party, each listed doctrine), using the canonical party name when available.
+Do not extract Member_of for a musician and a band from 'recorded with' in this politics ontology unless the organization is explicitly political or governmental.
+When a sentence says a person served as interim president, extract position_held(person, president) if a candidate provides the ontology-compatible president object.
+When a sentence says a person was elected in elections held on a date, prefer the candidate election event mention that includes the date when available.
+When a sentence explicitly states a person was a founding member of a named band or group, accept Member_of(person, group) if proposed by a candidate, following the gold-style example.
+When a party constitution explicitly states a transition to named doctrines such as Socialism or Communism, accept political_ideology(party, doctrine) for each named doctrine.
+In political biographies, statements that a person led or co-led a named political party support member_of_political_party(person, party) when proposed by a candidate.
+When a sentence says a person was Director-General or leader of a named political party, accept member_of_political_party(person, party) if proposed.
+For presidential biography sentences, prefer position_held(person, President of country) over inferring head_of_state unless head of state is explicitly stated.

@@ -1,0 +1,279 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{18}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{} and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showURL}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showURL #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[Caufield et~al\mbox{.}(2024)]%
+        {ontogpt2023}
+\bibfield{author}{\bibinfo{person}{J.~Harry Caufield}, \bibinfo{person}{Harshad
+  Hegde}, \bibinfo{person}{Vincent Emonet}, \bibinfo{person}{Nomi~L. Harris},
+  \bibinfo{person}{Marcin~P. Joachimiak}, \bibinfo{person}{Nicolas
+  Matentzoglu}, \bibinfo{person}{HyeongSik Kim}, \bibinfo{person}{Sierra
+  Moxon}, \bibinfo{person}{Justin~T. Reese}, \bibinfo{person}{Melissa~A.
+  Haendel}, \bibinfo{person}{Peter~N. Robinson}, {and}
+  \bibinfo{person}{Christopher~J. Mungall}.} \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{Structured Prompt Interrogation and Recursive
+  Extraction of Semantics ({SPIRES}): A Method for Populating Knowledge Bases
+  Using Zero-Shot Learning}.
+\newblock \bibinfo{journal}{\emph{Bioinformatics}} \bibinfo{volume}{40},
+  \bibinfo{number}{3} (\bibinfo{year}{2024}).
+\newblock
+\href{https://doi.org/10.1093/bioinformatics/btae104}{doi:\nolinkurl{10.1093/bioinformatics/btae104}}
+
+
+\bibitem[Dou et~al\mbox{.}(2015)]%
+        {dou2015ontology}
+\bibfield{author}{\bibinfo{person}{Dejing Dou}, \bibinfo{person}{Hao Wang},
+  {and} \bibinfo{person}{Haishan Liu}.} \bibinfo{year}{2015}\natexlab{}.
+\newblock \showarticletitle{Ontology Evolution for Knowledge Graph Refinement}.
+  In \bibinfo{booktitle}{\emph{Proceedings of the International Semantic Web
+  Conference}}.
+\newblock
+
+
+\bibitem[Flouris et~al\mbox{.}(2008)]%
+        {flouris2008ontology}
+\bibfield{author}{\bibinfo{person}{Giorgos Flouris}, \bibinfo{person}{Dimitris
+  Manakanatas}, \bibinfo{person}{Haridimos Kondylakis},
+  \bibinfo{person}{Dimitris Plexousakis}, {and} \bibinfo{person}{Grigoris
+  Antoniou}.} \bibinfo{year}{2008}\natexlab{}.
+\newblock \showarticletitle{Ontology Change: Classification and Survey}.
+\newblock \bibinfo{journal}{\emph{The Knowledge Engineering Review}}
+  \bibinfo{volume}{23}, \bibinfo{number}{2} (\bibinfo{year}{2008}),
+  \bibinfo{pages}{117--152}.
+\newblock
+
+
+\bibitem[Funk et~al\mbox{.}(2023)]%
+        {ontologyllm2023}
+\bibfield{author}{\bibinfo{person}{Maurice Funk}, \bibinfo{person}{Simon
+  Hosemann}, \bibinfo{person}{Jean~Christoph Jung}, {and}
+  \bibinfo{person}{Carsten Lutz}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Towards Ontology Construction with Language
+  Models}. In \bibinfo{booktitle}{\emph{Proceedings of the ISWC 2023 Workshop
+  on Knowledge Base Construction from Pre-trained Language Models}}.
+\newblock
+
+
+\bibitem[Giglou et~al\mbox{.}(2023)]%
+        {llms4ol2023}
+\bibfield{author}{\bibinfo{person}{Hamed~Babaei Giglou},
+  \bibinfo{person}{Jennifer D'Souza}, {and} \bibinfo{person}{S{\"o}ren Auer}.}
+  \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{{LLMs4OL}: Large Language Models for Ontology
+  Learning}. In \bibinfo{booktitle}{\emph{The Semantic Web -- ISWC 2023}}.
+  \bibinfo{publisher}{Springer}, \bibinfo{pages}{408--427}.
+\newblock
+
+
+\bibitem[Hogan et~al\mbox{.}(2021)]%
+        {hogan2021knowledge}
+\bibfield{author}{\bibinfo{person}{Aidan Hogan}, \bibinfo{person}{Eva
+  Blomqvist}, \bibinfo{person}{Michael Cochez}, \bibinfo{person}{Claudia
+  d'Amato}, \bibinfo{person}{Gerard de Melo}, \bibinfo{person}{Claudio
+  Gutierrez}, \bibinfo{person}{Sabrina Kirrane}, \bibinfo{person}{Jose~Emilio
+  Labra~Gayo}, \bibinfo{person}{Roberto Navigli}, \bibinfo{person}{Sebastian
+  Neumaier}, {et~al\mbox{.}}} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Knowledge Graphs}.
+\newblock \bibinfo{journal}{\emph{Comput. Surveys}} \bibinfo{volume}{54},
+  \bibinfo{number}{4} (\bibinfo{year}{2021}), \bibinfo{pages}{1--37}.
+\newblock
+
+
+\bibitem[Hong et~al\mbox{.}(2023)]%
+        {metagpt2023}
+\bibfield{author}{\bibinfo{person}{Sirui Hong}, \bibinfo{person}{Xiawu Zheng},
+  \bibinfo{person}{Jonathan Chen}, \bibinfo{person}{Yuheng Cheng},
+  \bibinfo{person}{Jinlin Wang}, \bibinfo{person}{Ceyao Zhang},
+  \bibinfo{person}{Zili Wang}, \bibinfo{person}{Steven Ka~Shing Yau},
+  \bibinfo{person}{Zijuan Lin}, \bibinfo{person}{Liyang Zhou}, {et~al\mbox{.}}}
+  \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{{MetaGPT}: Meta Programming for A Multi-Agent
+  Collaborative Framework}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2308.00352}}
+  (\bibinfo{year}{2023}).
+\newblock
+
+
+\bibitem[Ji et~al\mbox{.}(2022)]%
+        {ji2021survey}
+\bibfield{author}{\bibinfo{person}{Shaoxiong Ji}, \bibinfo{person}{Shirui Pan},
+  \bibinfo{person}{Erik Cambria}, \bibinfo{person}{Pekka Marttinen}, {and}
+  \bibinfo{person}{Philip~S. Yu}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{A Survey on Knowledge Graphs: Representation,
+  Acquisition, and Applications}.
+\newblock \bibinfo{journal}{\emph{IEEE Transactions on Neural Networks and
+  Learning Systems}} \bibinfo{volume}{33}, \bibinfo{number}{2}
+  (\bibinfo{year}{2022}), \bibinfo{pages}{494--514}.
+\newblock
+\href{https://doi.org/10.1109/TNNLS.2021.3070843}{doi:\nolinkurl{10.1109/TNNLS.2021.3070843}}
+
+
+\bibitem[Liang et~al\mbox{.}(2026)]%
+        {genericagent2025}
+\bibfield{author}{\bibinfo{person}{Jiaqing Liang}, \bibinfo{person}{Jinyi Han},
+  \bibinfo{person}{Weijia Li}, \bibinfo{person}{Xinyi Wang},
+  \bibinfo{person}{Zhoujia Zhang}, \bibinfo{person}{Zishang Jiang},
+  \bibinfo{person}{Ying Liao}, \bibinfo{person}{Tingyun Li},
+  \bibinfo{person}{Ying Huang}, \bibinfo{person}{Hao Shen},
+  \bibinfo{person}{Hanyu Wu}, \bibinfo{person}{Fang Guo}, \bibinfo{person}{Keyi
+  Wang}, \bibinfo{person}{Zhonghua Hong}, \bibinfo{person}{Zhiyu Lu},
+  \bibinfo{person}{Lipeng Ma}, \bibinfo{person}{Sihang Jiang}, {and}
+  \bibinfo{person}{Yanghua Xiao}.} \bibinfo{year}{2026}\natexlab{}.
+\newblock \showarticletitle{{GenericAgent}: A Token-Efficient Self-Evolving
+  {LLM} Agent via Contextual Information Density Maximization}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2604.17091}}
+  (\bibinfo{year}{2026}).
+\newblock
+\href{https://doi.org/10.48550/arXiv.2604.17091}{doi:\nolinkurl{10.48550/arXiv.2604.17091}}
+
+
+\bibitem[Mihindukulasooriya et~al\mbox{.}(2023)]%
+        {text2kgbench2023}
+\bibfield{author}{\bibinfo{person}{Nandana Mihindukulasooriya},
+  \bibinfo{person}{Sanju Tiwari}, \bibinfo{person}{Carlos~F. Enguix}, {and}
+  \bibinfo{person}{Kusum Lata}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{{Text2KGBench}: A Benchmark for Ontology-Driven
+  Knowledge Graph Generation from Text}. In \bibinfo{booktitle}{\emph{The
+  Semantic Web -- ISWC 2023}}. \bibinfo{publisher}{Springer},
+  \bibinfo{pages}{247--265}.
+\newblock
+
+
+\bibitem[Shinn et~al\mbox{.}(2023)]%
+        {shinn2023reflexion}
+\bibfield{author}{\bibinfo{person}{Noah Shinn}, \bibinfo{person}{Federico
+  Cassano}, \bibinfo{person}{Ashwin Gopinath}, \bibinfo{person}{Karthik
+  Narasimhan}, {and} \bibinfo{person}{Shunyu Yao}.}
+  \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Reflexion: Language Agents with Verbal
+  Reinforcement Learning}. In \bibinfo{booktitle}{\emph{Advances in Neural
+  Information Processing Systems}}.
+\newblock
+
+
+\bibitem[Swarup et~al\mbox{.}(2025)]%
+        {swarup2025llm4re}
+\bibfield{author}{\bibinfo{person}{Anushka Swarup}, \bibinfo{person}{Tianyu
+  Pan}, \bibinfo{person}{Ronald Wilson}, \bibinfo{person}{Avanti Bhandarkar},
+  {and} \bibinfo{person}{Damon~L. Woodard}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{{LLM4RE}: A Data-centric Feasibility Study for
+  Relation Extraction}. In \bibinfo{booktitle}{\emph{Proceedings of the 31st
+  International Conference on Computational Linguistics}}.
+  \bibinfo{pages}{6670--6691}.
+\newblock
+
+
+\bibitem[Tran et~al\mbox{.}(2025)]%
+        {tran2025llmasp}
+\bibfield{author}{\bibinfo{person}{Trang Tran}, \bibinfo{person}{Trung~Hoang
+  Le}, \bibinfo{person}{Huiping Cao}, {and} \bibinfo{person}{Tran~Cao Son}.}
+  \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{An {LLM} + {ASP} Workflow for Joint Entity-Relation
+  Extraction}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2508.12611}}
+  (\bibinfo{year}{2025}).
+\newblock
+
+
+\bibitem[Wadhwa et~al\mbox{.}(2023)]%
+        {wadhwa2023revisiting}
+\bibfield{author}{\bibinfo{person}{Somin Wadhwa}, \bibinfo{person}{Silvio
+  Amir}, {and} \bibinfo{person}{Byron~C. Wallace}.}
+  \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Revisiting Relation Extraction in the Era of Large
+  Language Models}. In \bibinfo{booktitle}{\emph{Proceedings of the 61st Annual
+  Meeting of the Association for Computational Linguistics}}.
+  \bibinfo{pages}{15566--15589}.
+\newblock
+
+
+\bibitem[Wan et~al\mbox{.}(2023)]%
+        {wan2023gptre}
+\bibfield{author}{\bibinfo{person}{Zhen Wan}, \bibinfo{person}{Fei Cheng},
+  \bibinfo{person}{Zhuoyuan Mao}, \bibinfo{person}{Qianying Liu},
+  \bibinfo{person}{Haiyue Song}, \bibinfo{person}{Jiwei Li}, {and}
+  \bibinfo{person}{Sadao Kurohashi}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{{GPT-RE}: In-context Learning for Relation
+  Extraction using Large Language Models}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the 2023 Conference on Empirical
+  Methods in Natural Language Processing}}. \bibinfo{pages}{3534--3547}.
+\newblock
+
+
+\bibitem[Wu et~al\mbox{.}(2023)]%
+        {autogen2023}
+\bibfield{author}{\bibinfo{person}{Qingyun Wu}, \bibinfo{person}{Gagan Bansal},
+  \bibinfo{person}{Jieyu Zhang}, \bibinfo{person}{Yiran Wu},
+  \bibinfo{person}{Beibin Li}, \bibinfo{person}{Erkang Zhu},
+  \bibinfo{person}{Li Jiang}, \bibinfo{person}{Xiaoyun Zhang},
+  \bibinfo{person}{Shaokun Zhang}, \bibinfo{person}{Jiale Liu},
+  {et~al\mbox{.}}} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{{AutoGen}: Enabling Next-Gen {LLM} Applications via
+  Multi-Agent Conversation}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2308.08155}}
+  (\bibinfo{year}{2023}).
+\newblock
+
+
+\bibitem[Yao et~al\mbox{.}(2023)]%
+        {yao2023react}
+\bibfield{author}{\bibinfo{person}{Shunyu Yao}, \bibinfo{person}{Jeffrey Zhao},
+  \bibinfo{person}{Dian Yu}, \bibinfo{person}{Nan Du}, \bibinfo{person}{Izhak
+  Shafran}, \bibinfo{person}{Karthik Narasimhan}, {and} \bibinfo{person}{Yuan
+  Cao}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{{ReAct}: Synergizing Reasoning and Acting in
+  Language Models}. In \bibinfo{booktitle}{\emph{International Conference on
+  Learning Representations}}.
+\newblock
+
+
+\bibitem[Zhang et~al\mbox{.}(2024)]%
+        {ontochat2024}
+\bibfield{author}{\bibinfo{person}{Bohui Zhang},
+  \bibinfo{person}{Valentina~Anita Carriero}, \bibinfo{person}{Katrin
+  Schreiberhuber}, \bibinfo{person}{Stefani Tsaneva},
+  \bibinfo{person}{Luc{\'i}a~S{\'a}nchez Gonz{\'a}lez}, \bibinfo{person}{Jongmo
+  Kim}, {and} \bibinfo{person}{Jacopo de Berardinis}.}
+  \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{{OntoChat}: A Framework for Conversational Ontology
+  Engineering Using Language Models}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2403.05921}}
+  (\bibinfo{year}{2024}).
+\newblock
+
+
+\end{thebibliography}

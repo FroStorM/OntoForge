@@ -1,0 +1,171 @@
+Map 'Principal photography took place in' to filming_location. Retain all coordinated location objects. Normalize relation labels to underscore format per ontology.
+Normalize multi-word relation labels to underscore format (e.g., 'country of origin' -> 'country_of_origin') to match ontology definitions.
+When both adjectival and canonical noun forms are provided for a country/location, prefer the canonical noun form.
+When a sentence uses a generic reference like 'The film' alongside a specific title, prefer the specific canonical title as the subject in the extracted triple.
+Map 'written by' or 'plot written by' to 'screenwriter' when the subject refers to a film.
+Normalize multi-word relation labels to underscore format to strictly match ontology definitions (e.g., 'production company' -> 'production_company', 'filming location' -> 'filming_location').
+When extracting country_of_origin, normalize adjectival demonyms (e.g., 'American') to their canonical country noun forms (e.g., 'United States') and prefer the canonical form in the final output.
+When extracting film characters, split coordinated names into separate triples rather than concatenating them into a single object string.
+When an actor wins an award for a performance in a film, extract both award_received(film, award) and cast_member(film, actor), normalizing the award to its canonical form without year prefixes.
+Normalize multi-word relation labels like 'award received' to underscore format 'award_received' to strictly match ontology definitions.
+Normalize multi-word relation labels to underscore format (e.g., 'award received' -> 'award_received') and strip possessive markers from award names to match canonical ontology forms.
+When extracting narrative_location from phrases indicating where a story takes place, accept country names if a specific city is not mentioned in the text.
+Normalize multi-word relation labels to underscore format (e.g., 'filming location' -> 'filming_location') and extract each distinct location mentioned in the text as a separate triple.
+Prefer canonical full names for actors over surname-only mentions when both are present.
+Normalize multi-word relation labels to underscore format to strictly match ontology definitions.
+Normalize space-separated relation labels in candidates to underscore format to strictly match ontology definitions (e.g., 'production company' -> 'production_company', 'filming location' -> 'filming_location').
+When a sentence explicitly states a work was 'written and directed by' a person, extract both screenwriter and director relations for that individual.
+Normalize space-separated relation labels to underscore format to strictly match ontology definitions (e.g., 'publication date' -> 'publication_date').
+Normalize space-separated relation labels to underscore format to strictly match ontology definitions (e.g., 'based on' -> 'based_on').
+When a film is described as 'a [YEAR] [GENRE] film', extract the year as publication_date and the combined genre phrase as genre.
+When a sentence lists multiple creators after 'written by', extract each as a separate screenwriter triple.
+Normalize space-separated relation labels to underscore format to strictly match ontology definitions (e.g., 'award received' -> 'award_received', 'nominated for' -> 'nominated_for').
+Normalize adjectival country mentions (e.g., 'Canadian') to canonical noun forms (e.g., 'Canada') for country_of_origin.
+Prefer standard genre labels (e.g., 'comedy horror') over extended descriptive phrases with modifiers (e.g., 'monster') for genre extraction.
+Normalize space-separated relation labels to underscore format to strictly match ontology definitions (e.g., 'nominated for' -> 'nominated_for', 'award received' -> 'award_received').
+Normalize adjectival nationalities (e.g., 'German') to canonical country nouns (e.g., 'Germany') for country_of_origin extraction.
+Extract narrative_location from phrases indicating where a story is 'set in' or 'focuses on'.
+Extract filming_location from phrases indicating 'principal photography began in [CITY]' or similar production start locations.
+Map phrases indicating a film is a 'remake of' or 'adaptation of' another work to the `based_on` relation.
+Normalize space-separated relation labels to underscore format to strictly match ontology definitions (e.g., 'publication date' -> 'publication_date', 'main subject' -> 'main_subject').
+Normalize space-separated relation labels to underscore format to strictly match ontology definitions (e.g., 'nominated for' -> 'nominated_for').
+Normalize space-separated relation labels to underscore format to strictly match ontology definitions (e.g., 'country of origin' -> 'country_of_origin', 'publication date' -> 'publication_date').
+Prefer canonicalized entity forms over mojibake or encoding artifacts when multiple candidates exist for the same relation.
+Map 'inspired by' or 'adaptation of' phrases to the 'based_on' relation.
+Normalize space-separated relation labels to underscore format to strictly match ontology definitions.
+Prefer canonicalized entity forms over mojibake or encoding artifacts when multiple candidates exist for the same relation and object.
+Extract coordinated adjectives modifying 'film' as separate genre triples.
+Normalize space-separated relation labels (e.g., 'based on', 'publication date') to underscore format to strictly match ontology definitions.
+Normalize space-separated relation labels to underscore format to strictly match ontology definitions (e.g., 'country of origin' -> 'country_of_origin', 'cast member' -> 'cast_member').
+Normalize space-separated relation labels to underscore format to strictly match ontology definitions (e.g., 'award received' -> 'award_received').
+When multiple agents propose the same relation with different object granularities, prefer the canonicalized form that strips temporal modifiers unless the year is part of the official award name.
+Normalize space-separated relation labels to underscore format to strictly match ontology definitions (e.g., 'nominated for' -> 'nominated_for', 'cast member' -> 'cast_member').
+Prefer canonicalized noun forms for countries over adjectival forms when extracting country_of_origin.
+Split coordinated adjectives modifying 'film' into separate genre triples unless they constitute a widely recognized compound genre.
+Normalize space-separated relation labels to underscore format to strictly match ontology definitions (e.g., 'narrative location' -> 'narrative_location', 'country of origin' -> 'country_of_origin').
+Always normalize space-separated relation labels to underscore format (e.g., 'publication date' -> 'publication_date') before validation against the ontology schema.
+Normalize space-separated relation labels to underscore format (e.g., 'part of' -> 'part_of', 'publication date' -> 'publication_date') to strictly match ontology schema before validation.
+Normalize space-separated relation labels to underscore format (e.g., 'publication date' -> 'publication_date') before validation against ontology schema.
+Strip temporal prepositions like 'between' or 'from' when extracting date ranges for temporal relations.
+Split coordinated objects for instrumentation or performer relations into separate atomic triples to maintain canonical granularity.
+Normalize numeric list identifiers (e.g., '28,') to their canonical entity titles when extracting relations, preferring canonical agent outputs over recall agent surface forms.
+Map 'published by' in music contexts to 'performer' when referring to the releasing artist, as 'publication_date' expects a temporal literal.
+Attach parenthetical temporal literals to the immediately preceding entity rather than the main subject unless explicitly stated otherwise.
+Map 'written by' in music contexts to both 'composer' and 'lyrics_by' when the ontology distinguishes them, preserving all coordinated creators.
+Normalize space-separated relation labels to underscore format (e.g., 'voice type' -> 'voice_type') to strictly match ontology schema.
+Distinguish 'remixed and mastered by' from 'producer' relation; only map to producer when explicitly credited with production.
+Strip quotation marks from song titles when extracting tracklist relations to align with canonical entity formatting.
+Normalize space-separated relation labels to underscore format (e.g., 'publication date' -> 'publication_date') to strictly match ontology schema.
+Normalize compound voice type descriptors (e.g., 'lyric tenor', 'operatic tenor') to their base voice category (e.g., 'tenor') to align with ontology schema and gold examples.
+Normalize space-separated relation labels to underscore format (e.g., 'part of' -> 'part_of', 'publication date' -> 'publication_date') to strictly match ontology schema.
+Normalize space-separated relation labels to underscore format to strictly match ontology schema.
+When a sentence distinguishes between lyrics and tunes/melodies, assign the composer relation to the explicit musical work noun rather than the lyrical phrase.
+Map 'features' and 'credited' in music contexts to the 'performer' relation for musical works.
+Normalize space-separated relation labels to underscore format (e.g., 'part of' -> 'part_of') to strictly match ontology schema.
+Map possessive album references (e.g., 'the album's first single', 'Album's most controversial singles') to part_of relations between the single and the named album.
+Map possessive artist references indicating chart success or ownership (e.g., 'Artist's ninth number-one hit') to performer relations for the musical work.
+When a sentence mentions 'collaboration' between a primary artist and a known music industry figure, prefer composer or producer relations from precision/canonical agents over generic performer for the collaborator.
+Map 'written by' to composer and 'sung by' to performer for musical works.
+Prefer canonicalized base genre over descriptive phrases when both are present.
+Map 'released on [album]' or 'included on [album]' to part_of(musical work, album).
+Map 'composed in [date]' to publication_date when creation_date is absent from the ontology.
+Normalize space-separated relation labels (e.g., 'publication date') to underscore format ('publication_date') to strictly match ontology schema.
+Map descriptive phrases like 'instrumental piece' to the genre relation with the object 'instrumental'.
+Map 'written by' and 'composed by' to composer relation for musical works.
+Extract all coordinated music genres as separate genre triples.
+Normalize space-separated relation labels from extraction candidates to underscore format to strictly match ontology schema (e.g., 'record label' -> 'record_label').
+Map 'written for [instrument]' and 'accompanied by [ensemble]' to instrumentation(musical work, instrument/ensemble).
+Normalize space-separated relation labels from extraction candidates to underscore format to strictly match ontology schema (e.g., 'part of' -> 'part_of', 'publication date' -> 'publication_date').
+Normalize space-separated relation labels to underscore format to strictly match ontology schema (e.g., 'publication date' -> 'publication_date').
+Map 'recorded by [artist]' to performer(musical work, artist) when the subject is a song or musical work.
+Map 'written by' to lyrics_by and 'produced by' to producer for musical works; always normalize space-separated relation labels to underscore format to match ontology schema.
+Normalize space-separated relation labels from extraction candidates to underscore format to strictly match ontology schema (e.g., 'publication date' -> 'publication_date', 'part of' -> 'part_of').
+Do not map 'arrangements by' or 'arranged by' to composer; restrict composer mapping to explicit phrases like 'composed by', 'written by', or 'music by'.
+Normalize all space-separated relation labels from extraction candidates to underscore format to strictly match the ontology schema (e.g., 'publication date' -> 'publication_date', 'record label' -> 'record_label').
+Map 'released in [date]' to publication_date(musical work, date).
+Map 'single from the album [album]' or 'off [album]' to part_of(musical work, album).
+Map explicit genre descriptors like 'being a [genre] track' or 'influences of [genre]' to genre(musical work, genre).
+Normalize space-separated relation labels from extraction candidates to underscore format to strictly match ontology schema (e.g., 'voice type' -> 'voice_type').
+Normalize space-separated relation labels from extraction candidates to underscore format to strictly match ontology schema (e.g., 'record label' -> 'record_label', 'publication date' -> 'publication_date').
+When a sentence uses a generic reference like 'the song' or 'the track' alongside a specific title, resolve the generic mention to the specific title for subject/object normalization.
+When candidate sets contain both an abbreviation and a canonicalized full name for the same entity, consistently select the canonicalized form for the subject or object.
+Map 'founders' or 'founder' mentions to the 'creator' relation when referring to websites or applications.
+Map 'released by [company]' for video games to developer relation when publisher is not in ontology, and map 'for the [hardware]' to platform relation.
+Map 'ported to [platform]' mentions to the 'platform' relation for software or video games.
+Map phrases indicating a person adapted a format or brought a program to a channel to the creator relation for media applications.
+Map 'made by [company]' for video games to the developer relation.
+Map 'for the [hardware]' and 'ported to [platform]' mentions to the platform relation, preserving all coordinated platform names in the list.
+Map 'launched by' for websites or applications to the 'creator' relation, preserving all coordinated person names.
+Map 'developed by [Company A] and [Company B]' for video games or software to multiple developer triples, preserving all coordinated entities.
+Map 'developed by [Company]' for video games to the developer relation, and 'for the [Platform]' to the platform relation, preserving all coordinated platform names.
+Map 'from the [company]' or 'developed by [company]' for software or operating systems to the developer relation, and normalize object strings by removing parenthetical abbreviations.
+Map 'allows [hardware] to run [software]' or '[software] runs on [hardware]' mentions to the platform relation.
+Map 'published by [company]' for video games to the developer relation when the ontology lacks a distinct publisher relation.
+Map 'written by' for software or shells to the developer relation.
+Map possessive constructions like '[Company]'s [Software]' to the developer relation.
+Map 'ported to [platform]' or 'written for [platform]' for software or games to the platform relation.
+Map 'published by [Company]' for video games to the developer relation when the ontology lacks a distinct publisher relation.
+Map 'hosted by [person]' for television programs to the creator relation when the ontology lacks a distinct host or presenter relation.
+Map 'published by [company]' for video games and expansion packs to the developer relation when the ontology lacks a distinct publisher relation.
+Map 'produced by [company]' for software to the developer relation.
+Map 'expansion pack ... developed by [Company]' to the developer relation.
+Map 'fork ... under the name [Software]' to developer([Software], [Forking Group/Developers]).
+Map '[Game/Expansion] by [Company]' to developer relation for video games and software when publisher/developer distinction is absent in the ontology.
+Map 'used on [computer]' or 'operating system for [computer]' to the platform relation.
+Map 'created by [person]' to the creator relation for digital products or devices.
+Map 'released for [platform]' or 'available on [platform]' to the platform relation for software and video games.
+Map 'purchased by [company]' or 'owner [company]' for software to the developer relation when the ontology lacks a distinct ownership or maintainer relation.
+Map '[Software] of [Organization]' to developer relation when indicating creation or origin.
+Map 'published for [platform]' to the platform relation for software and video games.
+Map 'published by [Company] for [Platform]' to developer and platform relations for video games when publisher/developer distinction is absent in the ontology.
+Map 'released by [Company] for [Platform]' to developer and platform relations for software and video games.
+Map possessive '[Organization]'s [Software]' to developer relation.
+Map 'developed and released by [Company] for [Platform]' to developer and platform relations for software and video games.
+Map 'based on [engine]' or 'built on [engine]' to the platform relation for software and video games.
+Map 'ended support for' or 'maintained by' to the developer relation for software when indicating the responsible organization.
+Map 'released for [platform]' or 'published for [platform]' to the platform relation for software and video games, retaining generic subjects like 'Versions' when the specific title is absent from the sentence.
+Map 'created by [Organization]' to developer relation for software and operating systems.
+Map 'for [Computer/Hardware]' to platform relation for operating systems and software.
+Map 'released in [format] for [platform]' to platform relation for software and video games.
+Do not map hosting, archiving, or download permission phrases to the developer relation unless explicit development, creation, or maintenance is stated.
+Map 'leader of [Political Party]' or 'acclaimed the leader of [Political Party]' to member_of_political_party relation.
+Map 'lead singer of' or 'lead vocalist of' to Member_of relation for musical groups and bands.
+Do not extract elected_in relations when the election is only mentioned as a temporal or contextual reference (e.g., 'followed the [election]') without explicit statement of candidacy or victory in that election.
+Map 'part of [musical duo/group]' or 'co-lead vocalist of [band]' to Member_of relation for musical organizations.
+Normalize candidate relation 'Member of' to ontology label 'Member_of'. Map 'associated with [militant/terrorist organization]' to Member_of when context implies organizational membership, consistent with official examples for similar groups.
+Map 'Prime Minister' to head_of_government and 'President' to head_of_state or position_held. Normalize position title objects to include the country name when explicitly stated in the text.
+Map 'representing [political party]' to member_of_political_party relation.
+Normalize candidate relation 'political ideology' to ontology label 'political_ideology' when linking political parties to their associated ideologies.
+Map explicit mentions of 'President of [Country]' to both position_held (human, title) and head_of_state (country, human) relations.
+Map explicit mentions of 'President of [Country]' to both position_held(human, title) and head_of_state(country, human) relations, normalizing the title object to include the country name.
+Normalize relation labels containing spaces to underscore-separated ontology labels (e.g., 'position held' -> 'position_held'). Prefer canonical short names for political figures when both full and canonical forms are present in candidates.
+Normalize 'Member of' to 'Member_of' for academic or research institute memberships when context indicates employment or transfer, consistent with official examples.
+Normalize space-separated relation labels to underscore format; map explicit 'President of [Country]' mentions to both position_held(human, title) and head_of_state(country, human) relations.
+Map academic titles like 'Fellow' or 'Professor' to Member_of for academic organizations, following official example precedence over domain-specific rejection rules for non-political sentences.
+Normalize adjective forms of political ideologies to their corresponding noun forms (e.g., 'populist' -> 'populism') when extracting political_ideology relations.
+Always normalize space-separated relation labels to underscore-separated ontology labels (e.g., 'political ideology' -> 'political_ideology').
+Normalize 'member of [Party] party' mentions to member_of_political_party relation.
+Normalize space-separated relation labels to underscore format (e.g., 'position held' -> 'position_held', 'head of state' -> 'head_of_state') and map explicit 'President of [Country]' mentions to both position_held(human, title) and head_of_state(country, human) relations.
+Normalize space-separated relation labels to underscore format (e.g., 'political ideology' -> 'political_ideology'). Extract all explicitly stated political ideologies for a party, including coordinated commitments.
+Normalize space-separated relation labels to underscores; map explicit 'President of [Country]' mentions to both position_held(human, title) and head_of_state(country, human).
+Normalize space-separated relation labels to underscore format (e.g., 'candidacy in election' -> 'candidacy_in_election', 'member of political party' -> 'member_of_political_party').
+Normalize space-separated relation labels to underscore format and map explicit 'President of [Country]' mentions to both position_held and head_of_state relations.
+Normalize space-separated relation labels to underscore format matching the ontology (e.g., 'Member of' -> 'Member_of', 'position held' -> 'position_held'). When multiple candidates target the same entity, prefer canonicalized forms and explicit positional titles over generic membership mentions.
+Normalize space-separated relation labels to underscore format matching the ontology (e.g., 'member of political party' -> 'member_of_political_party', 'position held' -> 'position_held') and prefer canonicalized object forms over verbose recall variants.
+Normalize space-separated relation labels to underscore format matching the ontology (e.g., 'member of political party' -> 'member_of_political_party', 'Member of' -> 'Member_of'). Map co-founder or commander mentions to Member_of when specific leadership relations are absent from the ontology.
+Normalize space-separated relation labels to underscore format matching the ontology (e.g., 'political ideology' -> 'political_ideology'). Extract all explicitly stated political ideologies or principles for a party, including coordinated commitments.
+Normalize space-separated relation labels to underscore format matching the ontology (e.g., 'position held' -> 'position_held', 'head of state' -> 'head_of_state', 'member of political party' -> 'member_of_political_party'). Map explicit 'President of [Country]' mentions to both position_held(human, title) and head_of_state(country, human). Prefer canonicalized object forms over verbose recall variants.
+Normalize space-separated relation labels to underscore format matching the ontology (e.g., 'Member of' -> 'Member_of') and accept explicit project/organization membership for contributors or developers.
+Map explicit party platforms, campaigns, and stated principles to 'political_ideology' and always prefer canonical full party names over abbreviations.
+Normalize space-separated relation labels to underscore format matching the ontology (e.g., 'member of political party' -> 'member_of_political_party', 'position held' -> 'position_held'). Prefer canonicalized subject forms over verbose recall variants.
+Normalize space-separated relation labels to underscore format matching the ontology (e.g., 'elected in' -> 'elected_in', 'member of political party' -> 'member_of_political_party'). Extract explicit election wins and party caucus memberships as direct evidence for elected_in and member_of_political_party relations.
+Always prefer canonical full party names over abbreviations for subjects and objects.
+Normalize space-separated relation labels to underscore format matching the ontology (e.g., 'political ideology' -> 'political_ideology', 'Member of' -> 'Member_of').
+Normalize 'Member of' to 'Member_of' and accept explicit band/organization membership when supported by phrases like 'recorded with' or 'formed', aligning with gold-style examples.
+Normalize 'interim [title]' mentions to standard position_held relations when the title matches an ontology concept, and prefer canonicalized election date strings over verbose recall variants.
+Normalize space-separated relation 'member of political party' to ontology format 'member_of_political_party' for explicit party membership statements.
+Normalize 'Member of' to 'Member_of' and accept explicit band/organization membership for music groups when supported by phrases like 'founding member', aligning with gold-style examples.
+Normalize space-separated relation labels to underscore format matching the ontology (e.g., 'political ideology' -> 'political_ideology'). Prefer canonicalized subject/object forms over verbose recall variants.
+Normalize space-separated relation labels to underscore format matching the ontology schema.
+Prefer canonical subject/object forms from precision or canonicalization agents over verbose recall variants.
+Validate position_held objects against the ontology's explicit type constraints (e.g., president) before acceptance.

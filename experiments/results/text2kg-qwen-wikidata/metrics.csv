@@ -1,0 +1,4 @@
+dataset,domains,method,precision,recall,f1,ontology_conformance,grounding,evaluated,failures,failure_rate
+wikidata_tekgen,"1_movie,2_music,6_computer,8_politics",llm_only,0.3620309050772627,0.39709443099273606,0.37875288683602776,1.0,0.9825,200.0,1.0,0.004975124378109453
+wikidata_tekgen,"1_movie,2_music,6_computer,8_politics",llm_sop,0.3536036036036036,0.3801452784503632,0.36639439906651106,1.0,0.9825,200.0,1.0,0.004975124378109453
+wikidata_tekgen,"1_movie,2_music,6_computer,8_politics",ontoforge,0.3547794117647059,0.46731234866828086,0.4033437826541275,1.0,0.9285181623931623,200.0,1.0,0.004975124378109453

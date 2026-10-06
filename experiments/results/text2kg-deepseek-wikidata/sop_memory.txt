@@ -1,0 +1,121 @@
+Normalize country adjectives to full country names (e.g., 'British' → 'United Kingdom').
+For genre, prefer the base genre term (e.g., 'documentary' over 'documentary film').
+Normalize relation 'main subject' to 'main_subject'.
+When 'at' precedes an organization, only map to production_company if the organization is a recognized film production company.
+The verb 'co-written' indicates screenwriter relation.
+If a sentence introduces named entities in a film's story context (e.g., 'tells the story of ... named ...'), those entities are valid for the characters relation.
+For award names, strip leading year to match base award name (e.g., '1990 Academy Award for Best Actor' -> 'Academy Award for Best Actor').
+Map surface relation forms 'award received' to 'award_received' and 'cast member' to 'cast_member'.
+Split compound genre descriptions like 'romantic drama' into separate genre triples for each base genre.
+When the sentence states 'The story takes place in [location]', consider it evidence for narrative_location.
+When a film 'won [award] at [festival/event]', extract only award_received with the award as object; do not map the festival to any relation.
+When a list of award names ends with a fully specified award (e.g., 'Academy Award for Best Supporting Actor') and earlier items are abbreviated (e.g., 'BAFTA'), infer the same category for the abbreviated items and canonicalize as '[Organization] Award for Best Supporting Actor'.
+When a sentence mentions 'locations in [city] featured in the film', it supports filming location rather than narrative location.
+Only extract narrative_location when the location is explicitly a city (e.g., 'takes place in Philadelphia'). Reject country or region mentions for this relation.
+Do not extract the characters relation for generic role descriptions like 'a member of the Provisional Irish Republican Army'; only extract if a specific character name is given.
+Phrases like 'shot in' and 'shooting taking place in' directly indicate filming_location.
+When the sentence states 'written and directed by [person]', extract both director and screenwriter triples.
+When a film wins or is nominated for an award, use the nominated_for relation, not award_received. Always canonicalize award names to include the awarding organization, e.g., 'Academy Award for Best Director'.
+When a film is described with sequential genre adjectives and nouns (e.g., 'comedy horror monster movie'), combine them into a single genre string separated by spaces, following the official similar example.
+Use 'award received' relation when the sentence explicitly indicates winning an award (e.g., 'winning', 'received', 'won'). Use 'nominated for' only for nominations.
+Canonicalize award names to format 'Academy Award for [Category]' even if mentioned as '[Category] Academy Award'.
+When 'principal photography began in [location]', extract filming_location for the film.
+When the film is referred to generically as 'the film' but the sentence provides enough context to infer the specific film title (e.g., it is described as a remake of a well-known film), canonicalize to the inferred title.
+When a film's publication year is mentioned as only a year, canonicalize to '01 January YYYY'.
+Possessive phrase like '[Person]'s [film type]' indicates the person is the director.
+Phrase 'documentary on [Person]' indicates the person is the main_subject of the documentary.
+Do not infer cast_member relation from a parenthetical actor name in a nomination context unless there is explicit statement of acting in the film.
+Normalize relation labels such as 'production company' to 'production_company' if ontology defines them with underscores.
+When a film is described as 'X Y Z film' where X, Y, Z are descriptors (e.g., animated, fantasy, adventure), extract each distinct genre as a separate triple rather than merging into a single object.
+Normalize relation label 'production company' to 'production_company' as per ontology.
+The adjective 'American' attached to a film indicates its country of origin is 'United States'.
+The phrase 'starring [Person]' indicates the person is a cast_member of the film.
+The phrase '[genre] film' directly indicates the genre relation.
+For direct-to-video Scooby-Doo films, normalize the film title to include the franchise prefix 'Scooby-Doo!' as seen in gold examples.
+Normalize relation labels to lowercase with underscores, e.g., 'publication date' becomes 'publication_date', matching the ontology.
+When a sentence explicitly lists countries involved in a co-production, extract each as a separate country_of_origin triple.
+Normalize relation labels to use underscores if the ontology uses underscores, e.g., 'narrative location' -> 'narrative_location'.
+Strip religious or honorific titles like 'Canon' from person names when normalizing subjects.
+For instrumentation relations, split coordinated phrases like 'orchestra and chorus' into separate triples for each instrument/ensemble.
+Normalize publication_date literals to a compact year range format (YYYY-YYYY) when the sentence specifies a period between years.
+When an album is described as 'featuring the singles', extract both tracklist (album to single) and part_of (single to album) relations for each single.
+Only extract composer and lyrics_by triples if the sentence explicitly states 'composed by' or 'lyrics by'.
+Canonicalization agents may propose performer relations for singles when the album artist is described as a singer-songwriter and the singles are featured.
+Normalize 'publication date' to 'publication_date' as per ontology.
+Extract instrumentation triple for instrument explicitly described as '[instrument] work', even if it is the primary instrument.
+Treat 'published by [artist]' as evidence for performer(musical work, human).
+When a song is described as 'released from' an album, extract both part_of(song, album) and tracklist(album, song).
+Treat 'featured on [artist]’s album' as evidence for performer(musical work, human).
+Normalize 'voice type' relation to 'voice_type'.
+Extract producer(album, person) when the sentence mentions 'production by [person]' for an album.
+When singles are mentioned as receiving airplay from an album, extract both tracklist(album, single) and part_of(single, album).
+When an album is described as 'by [person]', extract producer(album, person).
+Only extract producer(album, person) when explicitly stated 'produced by' or 'production by'; 'album by [artist]' or 'his/her album' does not warrant producer extraction.
+When a musical work is described as 'a song by [artist]', extract performer(musical work, human).
+Treat 'appearing on' an album as evidence for both part_of(song, album) and tracklist(album, song), similar to 'released from'.
+Normalize relation 'language of work or name' to 'language_of_work_or_name' with underscores to match ontology.
+When a musical work is described as 'featuring' artists, extract performer(musical work, human) for each listed artist.
+When a musical work is described as a collaboration between artists, extract performer(musical work, human) for each listed artist.
+When a musical work is described as '[genre] ballad' (e.g., 'country ballad'), extract the base genre only (e.g., 'country') following the official example where 'doo-wop and soul ballad' yielded only 'doo-wop'.
+Normalize relation labels with spaces to underscores to match ontology (e.g., 'part of' to 'part_of', 'lyrics by' to 'lyrics_by', 'publication date' to 'publication_date').
+When a musical work is 'written by' a person, extract both composer(musical work, human) and lyrics_by(musical work, human).
+When a musical work is released on an album with a year, extract publication_date(musical work, year).
+For instrumental works (e.g., orchestral interlude), do not extract lyrics_by even when 'written by' is used; only extract composer.
+When a musical work is described as 'by' an artist or band, extract performer(musical work, artist_or_band).
+When a sentence describes a general class of musical works for a specific instrument, include the instrument in the subject (e.g., 'Oboe Concerto', 'Non-concerto work for oboe').
+Include all explicit accompaniment ensembles as instrumentation objects for musical works.
+When a musical work is described as by a '[genre] band', extract genre(musical work, genre) from the band's genre.
+When a musical work is 'recorded by' an artist, extract performer(musical work, artist).
+When a musical work is a single from an album, extract both part_of(musical work, album) and tracklist(album, musical work).
+Normalize relation alias 'nominated for' to 'nominated_for' for award nominations.
+When a musical work is described as having 'influences of' a genre (e.g., 'along with influences of funk'), extract genre(musical work, genre) for each listed influence.
+When a person is described as a tenor, extract voice_type(person, tenor).
+When a sentence mentions a work using a generic description like 'the song' or 'the album', replace it with the specific named entity from the context.
+Normalize relation aliases containing spaces or hyphens to their ontology underscore forms (e.g., 'lyrics by' -> 'lyrics_by', 'part of' -> 'part_of', 'publication date' -> 'publication_date').
+When extracting award-related relations, ensure the subject is an album as per ontology domain. Musical works should not be linked to awards via nominated_for unless the ontology includes a relation for musical work and award.
+When a website is described as having founders, extract creator(website, each founder) if the website is an application in the ontology.
+Do not extract developer relation from 'published by' unless the sentence explicitly states development.
+When a distribution is described as 'community-supported' or 'commercial', do not extract the developer relation without an explicit verb like 'developed by' or 'created by'.
+When a possessive phrase like 'Company's Product' or 'Developer's Software' indicates ownership or creation, extract developer(Product, Company) if the relation exists in the ontology.
+When the sentence refers to a software or game using a generic reference like 'the game' without providing a specific name, do not extract the triple because the ontology requires a specific identifiable software entity as subject.
+Do not extract platform(software, operating_system) unless the ontology explicitly allows it; platform expects a computer hardware.
+Normalize software titles by removing spaces before colons and fixing apostrophes as in official examples.
+When a software is 'produced by' a company, extract developer(software, company) if the developer relation is in the ontology.
+When a group of developers is explicitly described as forking or creating a software, extract developer(software, the group) if the developer relation is in the ontology.
+Do not extract creator relation for subjects that are not applications, such as comic books.
+When a sentence states that X is an expansion pack to Y by Z, extract developer(X, Z) if the developer relation exists in the ontology, following the pattern of the official example: developer(Guild Wars 2: Path of Fire, ArenaNet).
+When a sentence explicitly states 'X is the operating system used on Y', extract both platform(X, Y) and operating_system(Y, X) if both relations are in the ontology.
+Do not extract creator relation for subjects that are not applications, such as physical digital pets or devices.
+When a sentence refers to an unnamed game and lists platforms, use 'the game' as the subject for platform triples if the actual name is not provided.
+When a video game is released on a list of systems that include operating systems (e.g., MS-DOS, Mac OS, Microsoft Windows), treat each as a valid platform for the platform(software, platform) relation if no distinct computer model is mentioned.
+Do not extract platform triples for objects that are not computers or operating systems; network services like Nabu Network should be rejected.
+When a game is referred to as 'the game' but its full title is explicitly mentioned in the sentence, use the full title as the subject for extraction.
+When a sentence states that a person is the leader of a political party, extract member_of_political_party.
+When extracting Member_of in political ontologies, ensure the object is a political party, government entity, or explicitly political organization; reject music bands, academic societies, or generic non-political organizations.
+For elected_in and candidacy_in_election, require the object to be a specific named election (e.g., '2013 Italian presidential election') rather than a generic term like 're-election'.
+Academic societies, such as national academies of sciences, may be valid organizations for the Member_of relation even in political ontologies if the ontology includes a general Member_of(human,organization) relation; evaluate based on context and official examples.
+When a person is described as both Prime Minister and President, extract both head_of_government and head_of_state relations if the ontology includes both.
+Require explicit statement for political_ideology relation; mere co-occurrence in a sentence is insufficient.
+For political_ideology, require the sentence to directly assert the party's ideology using verbs like 'advocates', 'follows', or 'is', rather than comparative phrases like 'closer to'.
+When a person is explicitly stated to be the President of a country, extract both position_held and head_of_state if the ontology supports both relations.
+When extracting head_of_state, ensure argument order is (country, human) as per ontology.
+When a person is explicitly stated to be the President of a country, extract both position_held and head_of_state if ontology supports both.
+Prefer canonicalized subject names when available, using the shorter common form that preserves identity.
+For Member_of, prefer the most specific organization name provided in the sentence, including parent organizations when part of the same phrase.
+Treat 'professor at' as evidence for Member_of relation with the institution.
+When a political party is described with an adjective like 'populist', extract the ideology as the noun form (e.g., 'populism').
+When campaign themes are explicitly listed as party's main themes, they can be extracted as political ideologies.
+When a party's principles are explicitly listed with examples introduced by 'such as', extract both the main ideology and each listed example as a political_ideology triple.
+When a person is stated to be the President of a country, extract position_held and head_of_state; only extract head_of_government if explicitly stated as prime minister or head of government.
+When a person is described as standing as a candidate for a political party, extract member_of_political_party.
+When a person is described as 'chairman' of a company, do not automatically infer Member_of unless the word 'member' is explicitly used.
+Prefer canonicalized object names that include parenthetical abbreviations when provided by the canonicalization agent.
+When membership in a political party is stated, use member_of_political_party relation instead of generic Member_of.
+For Nazi paramilitary organizations (e.g., Sturmabteilung, Schutzstaffel), Member_of is acceptable even without explicit 'member' wording, following example output.
+When a person is said to have 'led' a political party, do not automatically extract member_of_political_party without explicit wording such as 'member' or 'joined'.
+When a party supports/campaigns for an ideology or has a platform based on an ideology, extract each distinct ideology as a political_ideology triple.
+When an abbreviation and its full form both appear as candidate subjects for the same entity, prefer the full form.
+For 'interim' variations of a role (e.g., 'interim president'), normalize the object to the base role ('president') for position_held.
+When multiple candidates exist for elected_in with a specific date, prefer the canonicalized form provided by the canonical agent.
+When a person is said to have held a position since an election, extract elected_in but not candidacy_in_election unless the sentence explicitly states they were a candidate.
+When an abbreviation and its full name both appear as candidates for the same entity, prefer the full name.

@@ -1,0 +1,276 @@
+\documentclass[sigconf]{acmart}
+
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\setlength{\emergencystretch}{1em}
+\setlength{\textfloatsep}{4pt plus 1pt minus 2pt}
+\setlength{\floatsep}{3pt plus 1pt minus 2pt}
+\setlength{\intextsep}{3pt plus 1pt minus 2pt}
+\raggedbottom
+
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+\setcopyright{cc}
+\setcctype{by}
+\copyrightyear{2026}
+\acmYear{2026}
+\acmDOI{10.1145/3799682.3839852}
+\acmConference[CIKM '26]{Proceedings of the 35th ACM International Conference on Information and Knowledge Management}{November 07--11, 2026}{Rome, Italy}
+\acmBooktitle{Proceedings of the 35th ACM International Conference on Information and Knowledge Management (CIKM '26), November 07--11, 2026, Rome, Italy}
+\acmISBN{979-8-4007-2539-5/2026/11}
+
+%% Submission ID.
+%% Uncomment and replace the value after receiving the submission ID.
+\acmSubmissionID{2114}
+
+\begin{document}
+
+\title{OntoForge: Continual Ontology and Knowledge Graph Construction via Multi-Agent Consensus and Self-Refining Procedures}
+
+\author{Fang Guo}
+\email{fang\_g@fudan.edu.cn}
+\orcid{0009-0005-7922-7383}
+\affiliation{%
+  \institution{Shanghai Key Laboratory of Data Science, College of Computer Science and Artificial Intelligence, Fudan University}
+  \city{Shanghai}
+  \country{China}
+}
+
+\author{Li Zhu}
+\email{zhuli@fudan.edu.cn}
+\orcid{0009-0009-5263-3460}
+\affiliation{%
+  \institution{Shanghai Key Laboratory of Data Science, College of Computer Science and Artificial Intelligence, Fudan University}
+  \city{Shanghai}
+  \country{China}
+}
+
+\author{Mengying Wu}
+\email{wumengying2200@sina.com}
+\orcid{0009-0009-3216-0862}
+\affiliation{%
+  \institution{JR Talent Technology Limited Company, Advantage AI Agent Lab}
+  \city{Shanghai}
+  \country{China}
+}
+
+\renewcommand{\shortauthors}{Fang Guo, Li Zhu, and Mengying Wu}
+
+\begin{CCSXML}
+<ccs2012>
+<concept>
+<concept_id>10002951.10003317.10003347.10003350</concept_id>
+<concept_desc>Information systems~Knowledge graphs</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10010147.10010178.10010179</concept_id>
+<concept_desc>Computing methodologies~Natural language processing</concept_desc>
+<concept_significance>300</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Information systems~Knowledge graphs}
+\ccsdesc[300]{Computing methodologies~Natural language processing}
+
+\begin{abstract}
+Constructing domain ontologies and knowledge graphs (KGs) remains challenging when extraction procedures must operate across heterogeneous schemas and reuse feedback over time. Fixed prompts often miss valid triples, mis-handle canonicalization, and cannot adapt to recurring errors. We propose \textbf{OntoForge}, a multi-agent framework for continual ontology and KG construction. OntoForge generates recall-oriented and ontology-conformant candidates, verifies them through evidence- and schema-aware consensus, and maintains a self-refining Standard Operating Procedure (SOP) memory that converts recurrent conflicts into reusable procedural rules. On Text2KGBench across four Wikidata-TEKGEN domains, OntoForge improves triple-level F1 over direct prompting and static-SOP baselines across several LLM backbones, mainly through higher recall. Ablations show that gains are not explained by extra LLM calls alone, and sequential diagnostics show that persistent SOP adaptation benefits later construction windows after cold start.
+\end{abstract}
+
+\keywords{Ontology Construction, Knowledge Graph Construction, Large Language Models, Multi-Agent Systems}
+
+\maketitle
+
+
+\section{Introduction}
+
+Ontology and knowledge graph (KG) construction is still largely treated as a static task: a domain corpus is collected, facts are extracted against a schema, and the resulting ontology-aware KG is reused until it becomes outdated. This assumption is brittle for real domain corpora. New documents introduce unseen entities, relation expressions vary across domains, and extraction procedures that work in one domain may fail when applied to another. A practical continual-construction system therefore needs more than applying a fixed prompt to the next document: it must also resolve semantic conflicts and revise its own procedure as recurring errors are observed.
+
+Existing ontology and KG construction methods only partially address this setting. Knowledge graph surveys characterize acquisition, representation, and application challenges that motivate robust construction pipelines~\cite{hogan2021knowledge,ji2021survey}. Traditional ontology engineering relies on expert curation and handcrafted rules, which are difficult to scale across heterogeneous domains. Recent large language model (LLM)-based ontology learning and engineering approaches improve extraction scalability~\cite{ontologyllm2023,llms4ol2023,ontochat2024,ontogpt2023}, while LLM-era relation extraction methods show strong in-context extraction ability~\cite{wan2023gptre,wadhwa2023revisiting,swarup2025llm4re}. Meanwhile, self-evolving agent systems show that procedural memory can make LLM workflows more adaptive over repeated tasks~\cite{genericagent2025}. However, many ontology construction methods are still organized as one-shot pipelines: they extract candidate triples and apply limited post-processing without retaining feedback from previous construction errors. Such pipelines are vulnerable to two failure modes. First, semantic ambiguity leads to inconsistent relation interpretation and entity canonicalization across contexts. Second, fixed prompts or static SOPs may overfit familiar domains and fail to adapt when new ontology schemas or domain conventions appear.
+
+We study continual ontology and KG construction under heterogeneous domain corpora, where semantic ambiguity and schema variation make static construction pipelines unreliable. Our intended setting is ontology-specific construction: each input document is processed with the ontology schema supplied for its domain, and accepted triples enrich the KG state for that schema. We do not assume that all domains are merged into a single global relation namespace, since doing so would introduce additional entity-type and relation-name ambiguities that are outside the scope of this study. We propose \textbf{OntoForge}, a multi-agent framework that couples KG refinement with procedural refinement. OntoForge first generates recall-oriented, ontology-conformant candidates through specialized agents, then reconciles them with a consensus verifier that checks evidence support, schema compatibility, and duplicate or conflicting claims. It further uses self-refining Standard Operating Procedures (SOPs) to consolidate conflict patterns and quality feedback into reusable procedural knowledge for later construction rounds. Our focus is not on generic agent debate, but on a task-specific decomposition for ontology-aware extraction in which disagreement is converted into explicit procedural updates.
+
+Our contributions are summarized as follows:
+\begin{itemize}
+\item We propose \textbf{OntoForge}, a continual ontology and KG construction framework that integrates multi-agent collaboration with adaptive procedural refinement.
+\item We introduce a lightweight \textbf{multi-agent consensus mechanism} and a \textbf{self-refining SOP memory} to improve candidate coverage and ontology-aware verification.
+\item We provide a controlled multi-domain study showing consistent gains over direct prompting and static-SOP baselines across several LLM backbones, while surfacing remaining precision and evaluation gaps.
+\end{itemize}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.82\textwidth]{figure1-v2.png}
+\caption{Overview of OntoForge. Evolving documents and a domain-supplied ontology are processed by specialized candidate-generation agents and consensus verification. Accepted triples accumulate in an ontology-specific KG state, while conflict and quality feedback refine persistent SOP memory for subsequent construction steps. The ontology schema remains fixed throughout construction.}
+\Description{OntoForge processes evolving documents and a fixed domain-supplied ontology with specialized candidate-generation agents and consensus verification. Accepted triples accumulate in an ontology-specific KG state, while conflict and quality feedback update SOP memory for subsequent construction steps.}
+\label{fig:framework}
+\end{figure*}
+
+\section{Method}
+\label{sec:method}
+
+\subsection{Problem Formulation}
+
+We study \textit{continual ontology and knowledge graph construction}. Given a document stream $\mathcal{D}=\{d_1,d_2,\ldots,d_t\}$ and an ontology schema $\mathcal{O}$ with concepts, relation labels, and type constraints, the objective is to iteratively construct an ontology-aware KG $\mathcal{G}_t=(\mathcal{E}_t,\mathcal{R}_t)$. Accepted triples are accumulated as additions to the ontology-specific KG output state, while rejected or disputed candidates become procedural feedback. In our Text2KGBench implementation, cross-instance adaptation is carried by SOP memory rather than retrieval from an externally supplied KG. If an application supplies a richer seed KG, the same framework can incorporate it for duplicate checking, conflict checking, or canonical-name reuse, but our controlled evaluation does not rely on such KG retrieval. The system also maintains a construction procedure $\mathcal{S}_t$, represented as an SOP containing extraction rules, validation constraints, and conflict-resolution preferences.
+
+Continual construction differs from static extraction in two ways. First, \textit{semantic ambiguity} causes relation candidates and entity surface forms to receive inconsistent interpretations across contexts. Second, \textit{procedural drift} occurs when a fixed prompt or static SOP becomes misaligned with new domain schemas, annotation conventions, or recurring extraction errors. OntoForge realizes each construction step through multi-agent consensus and self-refining SOP adaptation. In this paper, ``continual'' means sequential construction with persistent procedural memory; we do not claim to solve catastrophic forgetting or temporally annotated KG evolution.
+
+\begin{algorithm}[t]
+\caption{One OntoForge construction step}
+\label{alg:ontoforge}
+\small
+\begin{algorithmic}[1]
+\Require document $d_t$, ontology $\mathcal{O}$, previous KG $\mathcal{G}_{t-1}$, SOP memory $\mathcal{S}_{t-1}$
+\Ensure updated KG $\mathcal{G}_t$ and SOP memory $\mathcal{S}_t$
+\State Generate candidate triples with recall-oriented, schema-oriented, canonicalization, and SOP-guided agents.
+\State Group candidates that compete for the same ontology decision, such as relation-label or canonical-entity conflicts.
+\State Verify each group by evidence support, schema compatibility, candidate conflict resolution, and duplicate filtering.
+\State Add accepted triples to $\mathcal{G}_t$ and record rejected or disputed claims as conflict feedback.
+\State Update SOP memory by appending non-duplicate, recency-prioritized rules using only internal feedback, not test gold labels.
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Multi-Agent Consensus}
+
+To reduce semantic inconsistencies during ontology construction, OntoForge employs a multi-agent consensus mechanism. Instead of relying on single-pass extraction, multiple specialized agents analyze the same document and ontology schema from complementary perspectives, producing diverse candidate triples that are subsequently reconciled through consensus.
+
+At construction step $t$, recall-oriented, schema-oriented, canonicalization, and SOP-guided agents produce evidence-grounded candidate claims. Each claim stores a subject, relation, object, evidence span, and source agent. We use \textit{recall} in the standard evaluation sense: the fraction of gold triples recovered by a system. The recall-oriented agent favors broad candidate coverage before verification, the schema-oriented agent keeps high-confidence ontology-compatible claims, the canonicalization agent repairs aliases and generic mentions, and the SOP-guided agent applies the current procedural memory. The four roles are task-specific rather than generic debate roles, and all agents use the same LLM backend but different role instructions.
+
+Consensus is a rule-based decision protocol rather than a learned numeric scorer. Candidates are normalized by relation aliases, underscore/space variants, and exact subject--relation--object duplicates. Conflict groups share either an entity pair with competing relations or a subject--relation pair with competing objects; otherwise candidates are verified independently. The verifier accepts a candidate only if (i) its relation appears in $\mathcal{O}$, (ii) its evidence supports the full subject--relation--object claim, and (iii) it is not a duplicate or generic placeholder. We use no tuned confidence threshold: acceptance is determined by these hard checks plus deterministic tie-breaking. When several candidates pass, the verifier prefers schema-oriented or canonicalization candidates, keeps all supported coordinated objects, and selects canonicalized forms over abbreviations when both appear. The verifier emits accepted triples, resolved-conflict records, and optional SOP updates in JSON. Thus, agent disagreement is converted into an explicit ontology-level decision, while rejected or disputed claims become feedback for later SOP refinement.
+
+\subsection{Self-Refining SOP Adaptation}
+
+Rather than reconstructing extraction strategies from scratch, OntoForge accumulates reusable procedural knowledge in an ordered textual SOP. Each rule has a scope, trigger, action, and implicit recency priority. For example, a rule derived from movie-domain conflicts is: \texttt{scope: movie; trigger: nationality adjective modifies film; action: normalize adjective to country entity only when origin evidence is explicit}. During construction, OntoForge records extraction failures, semantic conflicts, and ontology inconsistencies as procedural feedback.
+
+SOP refinement is rule-level rather than merely prompt-level. The verifier may \textit{add} a short reusable rule when a resolved conflict reveals a missing alias, relation confusion, or evidence-checking pattern. Duplicate rules are not appended, and later construction steps receive the most recent SOP rules, giving lightweight reprioritization without gold labels. Rules remain defeasible: direct evidence and schema constraints override SOP memory. Thus, if candidates confuse screening venues with narrative or production locations, OntoForge adds a rule to reject venue triples unless the sentence states a story or production relation.
+
+Overall, OntoForge follows a three-step loop: agents generate candidate triples from the current document and ontology schema; the consensus verifier accepts evidence-grounded and ontology-compatible triples; and the SOP refiner summarizes conflicts into reusable procedural feedback. This lightweight loop keeps the construction process adaptive without requiring model fine-tuning.
+
+\section{Experiments}
+\label{sec:experiments}
+
+\subsection{Experimental Setup}
+
+We evaluate OntoForge on Text2KGBench~\cite{text2kgbench2023}, using four Wikidata-TEKGEN domains: movie, music, computer, and politics. Because Text2KGBench lacks explicit temporal drift annotations, our experiments are a controlled multi-domain approximation to continual construction rather than a definitive lifelong-learning evaluation. For each domain, we sample 50 test instances with a fixed seed, resulting in 200 instances per LLM backbone. We do not directly compare against the original Text2KGBench numbers because our setting uses a fixed subset, newer LLM backbones, leakage-controlled demonstrations, and a shared sample manifest; all baselines are rerun under the same evaluation pipeline.
+
+We compare \textbf{LLM-only}, direct ontology-guided extraction; \textbf{LLM+SOP}, single-pass extraction with static SOP instructions; and \textbf{OntoForge}, which adds multi-agent candidates, consensus, and adaptive SOP memory. We evaluate GPT-5.5, DeepSeek-v4-pro, Mimo-v2.5-pro, and Qwen-3.6-plus. All methods use the same sampled instances, schemas, evaluation pipeline, and backend within each comparison. Inputs are processed sequentially from an empty KG state, and OntoForge carries SOP state forward without test gold labels. Thus, performance does not depend on a consistent, well-populated initial KG; the reported setting isolates extraction and procedural adaptation from seed-KG quality. LLM-only and LLM+SOP use one LLM call per instance, while OntoForge uses five calls for four candidate agents and one verifier/refiner step; unresolved API failures after three retries are excluded from aggregation.
+
+\subsection{Evaluation Protocol}
+
+We report triple-level Precision, Recall, and F1. Precision is the fraction of predicted triples that match gold triples, recall is the fraction of gold triples recovered, and F1 is their harmonic mean. In Text2KGBench, each sentence is paired with gold triples representing ontology-conformant facts expected to be extracted and added at the current construction step. These gold triples are used only for evaluation, not to refine the KG or SOP. A prediction is correct only when normalized subject, relation, and object all match a gold triple. This strict scoring penalizes missed relations and canonicalization differences, so we report precision explicitly. It may undercount semantically equivalent alternatives, but also prevents credit for unsupported paraphrases. Ontology conformance is a diagnostic sanity check because all systems use ontology-defined labels. To avoid leakage, we remove official demonstrations whose sentence exactly matches the test sentence. Given the modest sample size, we interpret effect patterns as directional and focus on trends that are consistent across backbones. Since Text2KGBench is sentence-level, enriched-KG quality is measured by incremental triple quality rather than a separate global consistency score.
+
+\textbf{Reproducibility.}
+We use fixed seeds and identical manifests across methods and backbones, and will release scripts, prompts, manifests, predictions, and metric tables without credentials.
+
+\subsection{Main Results}
+
+Table~\ref{tab:main_results} presents multi-domain KG construction performance. OntoForge achieves the best F1 across all completed backbones, with clear gains on GPT-5.5, Mimo-v2.5-pro, and Qwen-3.6-plus, and a smaller recall-oriented gain on DeepSeek-v4-pro. The P/R/F1 cells make the recall--precision trade-off explicit: OntoForge consistently improves recall, while DeepSeek-v4-pro shows that stronger candidate generation may still require tighter verification to avoid precision loss.
+
+\begin{table}[!t]
+\centering
+\small
+\setlength{\tabcolsep}{0pt}
+\renewcommand{\arraystretch}{1.02}
+\caption{Text2KGBench results. Cells report P/R/F1; bold marks the best value for each metric.}
+\label{tab:main_results}
+\begin{tabular*}{0.98\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
+\toprule
+Backbone & LLM-only & LLM+SOP & OntoForge \\
+\midrule
+GPT-5.5 & .350/.373/.361 & .315/.339/.326 & \textbf{.375}/\textbf{.443}/\textbf{.406} \\
+DeepSeek-v4-pro & \textbf{.356}/.387/.371 & .353/.356/.354 & .327/\textbf{.433}/\textbf{.373} \\
+Mimo-v2.5-pro & .341/.242/.283 & \textbf{.360}/.269/.308 & .342/\textbf{.366}/\textbf{.353} \\
+Qwen-3.6-plus & \textbf{.362}/.397/.379 & .354/.380/.366 & .355/\textbf{.467}/\textbf{.403} \\
+\bottomrule
+\end{tabular*}
+\renewcommand{\arraystretch}{1.0}
+\end{table}
+
+The improvement mainly comes from recall: agents propose diverse ontology-conformant candidates, while consensus filters unsupported or duplicate triples. Static SOPs do not consistently improve over LLM-only, suggesting that fixed procedural guidance can over-constrain the model when schemas vary. The comparison is against lightweight baselines, so results are evidence of promise rather than a definitive leaderboard claim.
+
+\textbf{Relation to published Text2KGBench results.}
+The original Text2KGBench study reports Wikidata-TEKGEN results for Alpaca and Vicuna under its own model, prompting, and full-benchmark settings~\cite{text2kgbench2023}. We use those numbers as benchmark context rather than direct entries in Table~\ref{tab:main_results}, because our evaluation uses a fixed sampled stream, leakage-controlled demonstrations, an empty initial KG, persistent cross-instance SOP state, and different LLM backbones. We therefore focus controlled comparisons on methods rerun under the identical stream and inference setup.
+
+\subsection{Component Analysis}
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.01}
+\caption{Component ablation on Mimo-v2.5-pro. $\Delta$ values are relative to LLM-only; SC-5 denotes Self-Consistency-5.}
+\label{tab:ablation}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+Method & Calls & P & R & F1 & $\Delta$F1 \\
+\midrule
+LLM-only & 1 & .341 & .242 & .283 & -- \\
+LLM+SOP & 1 & \textbf{.360} & .269 & .308 & +.025 \\
+SC-5 & 5 & .337 & .283 & .308 & +.025 \\
+OntoForge w/o SOP & 5 & .332 & .334 & .333 & +.050 \\
+\midrule
+OntoForge & 5 & .342 & \textbf{.366} & \textbf{.353} & \textbf{+.070} \\
+\bottomrule
+\end{tabular*}
+\renewcommand{\arraystretch}{1.0}
+\end{table}
+
+Table~\ref{tab:ablation} isolates two design questions under Mimo-v2.5-pro. SC-5 uses the same five-call budget as OntoForge but only matches the static SOP baseline, suggesting that the gain is not simply repeated sampling. Removing SOP memory lowers F1 from .353 to .333, showing that adaptive procedural updates add value beyond consensus. Rather than assigning subjective correctness labels to textual SOP rules, we evaluate their quality extrinsically through downstream construction performance; human auditing remains future work.
+
+This extrinsic view matters because SOP rules are meant to improve later construction behavior, not to serve as standalone annotations with a fixed gold label.
+
+For Mimo-v2.5-pro, the final SOP contains 139 active non-duplicate rules.
+
+\subsection{Sequential Diagnostic}
+
+To directly probe the continual aspect, we also evaluate window-level F1 under domain-block ordering on the same Mimo-v2.5-pro backbone used for ablation. We use window-level rather than cumulative scores because cumulative metrics can obscure whether procedural memory benefits later construction steps. The experiment is intended to isolate the temporal effect of persistent SOP state rather than establish cross-backbone superiority. It does not imply monotonic improvement, since window difficulty varies across the stream; the relevant observation is whether adaptation helps after the cold-start stage.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figure2.png}
+\caption{Window-level F1 under sequential domain-block processing with Mimo-v2.5-pro. Each point evaluates a disjoint 20\% segment of the construction stream.}
+\Description{A line chart comparing LLM-only, Static SOP, and OntoForge across five disjoint windows. OntoForge is lower in the first window but higher in the following four windows.}
+\label{fig:continual_window}
+\end{figure}
+
+Figure~\ref{fig:continual_window} shows that after the first window, OntoForge consistently outperforms both reset extraction and static SOP prompting. The weaker first-window result is consistent with the cold-start setting, where OntoForge has not yet accumulated reusable procedural feedback. Relative to LLM-only, OntoForge moves from a $-.028$ gap in the cold-start window to positive gains in all subsequent windows, reaching $+.150$ and $+.077$ F1 in the final two windows.
+
+\subsection{Error Analysis and Case Study}
+
+Common errors are canonicalization mismatch, schema ambiguity, and evidence-boundary errors. In a movie case, \textit{Out in the Dark} is described as a ``2012 Israeli romantic drama film'' and later linked to festival venues. LLM-only extracts a coarse date, while the static SOP baseline treats \textit{Israeli} as a literal country object and confuses festival venues with narrative or filming locations. OntoForge keeps the genre, normalizes \textit{Israeli} to \textit{Israel}, rejects unsupported venue relations, and converts the conflict into SOP rules. A failure case shows the remaining precision gap: for ``Principal photography took place in London and around Britain'', systems recover location evidence but may use a generic subject rather than the benchmark title. The recall gain therefore remains sensitive to linking, subject propagation, and surface-form canonicalization.
+
+\subsection{Discussion and Limitations}
+
+OntoForge maintains two complementary forms of state: the KG stores accepted domain facts, whereas the SOP stores reusable construction procedures. In the present evaluation, the KG is the accumulated output state and the SOP is the active cross-instance adaptation state. This separation allows OntoForge to operate from an empty KG without conflating procedural adaptation with the quality of an externally supplied seed graph.
+
+Text2KGBench has heterogeneous domains but no explicit temporal drift annotations; our setting therefore approximates continual construction and does not evaluate schema evolution, fact replacement, or catastrophic forgetting. The baselines are controlled prompting variants rather than exhaustive KG, retrieval, entity-linking, or ontology-learning systems. Stronger grounding could be inserted before verification, and systems such as SPIRES are complementary because grounded identifiers could be fed to the canonicalization agent before consensus. Textual SOP memory may also benefit from human validation. The benchmark measures incremental triple quality, not global graph consistency after many updates, and our sampled evaluation does not include statistical significance testing.
+Potential pretraining exposure to public knowledge underlying Text2KGBench cannot be fully excluded; future evaluation on temporally held-out or proprietary-domain corpora would provide a stronger test of continual adaptation.
+
+\section{Related Work}
+\label{sec:related}
+
+\textbf{LLM extraction, grounding, and self-evolving agents.}
+Recent work studies LLMs for ontology engineering, ontology-aware KG generation, relation extraction, and agentic refinement~\cite{ontologyllm2023,llms4ol2023,ontochat2024,text2kgbench2023,wan2023gptre,wadhwa2023revisiting,swarup2025llm4re,tran2025llmasp,yao2023react,shinn2023reflexion,autogen2023,metagpt2023}. SPIRES/OntoGPT-style systems ground mentions to ontology or KB concepts~\cite{ontogpt2023}, while ontology-evolution work updates schemas and KGs as concepts emerge~\cite{flouris2008ontology,dou2015ontology}. OntoForge complements these directions with a task-specific protocol that turns ontology-level disagreement into reusable extraction procedures rather than a new general-purpose agent algorithm.
+
+\section{Conclusion}
+
+We presented OntoForge, a multi-agent framework for continual ontology and KG construction. Text2KGBench results show recall-oriented gains across multiple LLM backbones, while sequential diagnostics suggest that persistent SOP adaptation benefits later construction steps. The study suggests treating ontology-aware KG construction as an adaptive procedure whose extraction rules and verification criteria evolve with domain evidence.
+
+\begin{acks}
+The authors thank JR Talent Technology Limited Company and the Advantage AI Agent Lab (A3 Lab) for their support of this work. We also thank the anonymous reviewers for their constructive comments and suggestions.
+\end{acks}
+
+\section*{GenAI Usage Disclosure}
+The authors used ChatGPT during manuscript preparation for language polishing, copyediting, and iterative refinement of revisions addressing reviewer comments. Figures were prepared or visually refined with AI assistance; experimental values shown in Figure 2 were author-verified and not AI-generated. All experiments, code execution, and benchmark measurements were performed by the authors, and all reported results and scientific claims were verified by the authors. The authors take full responsibility for the content of this paper.
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
